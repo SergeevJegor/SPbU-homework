@@ -14,8 +14,8 @@ int conditional(int x, int y, int z);//
 int isPower2(int x);//
 
 int main() {
-    int x = 4, y = 7;
-    printf("%i", signBits(1024));
+    /*int x = 4, y = 7, z = 9;
+    printf("%i", %funcname%);*/
     system("pause");
     return 0;
 }
@@ -52,7 +52,10 @@ int logicalShift(int x, int n){
 }
 
 int addOK(int x, int y){
-
+    int signXY = (x + y) >> 31;
+    int signX = x >> 31;
+    int signY = y >> 31;
+    return !(~(signX ^ signXY) & (signX ^ signY));
 }
 
 int conditional(int x, int y, int z){
@@ -67,5 +70,5 @@ int bang(int x){
 int isPower2(int x){
     int sign = x >> 31;
 
-    return !((x & (x + (~0) ^ sign)) + !x);
+    return !((x & (x + (~0) ^ sign)) + (!x));
 }
