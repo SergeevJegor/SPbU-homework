@@ -3,9 +3,9 @@
 
 int bitAnd(int x, int y);//
 int bitXor(int x, int y);//
-int thirdBits();//
+int thirdBits(void);//
 int fitsBits(int x, int n);//
-int signBits(int x);//
+int sign(int x);//
 int getByte(int x, int n);//
 int logicalShift(int x, int n);//
 int addOK(int x, int y);
@@ -28,7 +28,7 @@ int bitXor(int x, int y){
     return ~(~(~x & y) & ~(x & ~y));
 }
 
-int thirdBits(){
+int thirdBits(void){
     int x = 73; /*001001001*/
     x = (x << 18) | (x << 9) | (x);
     x = (x << 6) | 9;
@@ -39,7 +39,7 @@ int fitsBits(int x, int n){
     return !(((x & ~(x << 31)) + (~x & (x << 31))) >> (n + ~0));/* (x << 31) = 0, x>=0; =1, x<0 */
 }
 
-int signBits(int x){
+int sign(int x){
     return (!!x) | (x >> 31);
 }
 
