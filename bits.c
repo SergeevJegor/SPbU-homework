@@ -63,8 +63,8 @@ int conditional(int x, int y, int z){
 }
 
 int bang(int x){
-    x = (x >> 16) | (x >> 8) | (x >> 4) | (x >> 2) | (x >> 1) | x;
-    return ~x & 1;
+    int negX = ~x+1;
+    return ((negX | x) >> 31) + 1;
 }
 
 int isPower2(int x){
