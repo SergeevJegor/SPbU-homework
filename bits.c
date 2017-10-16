@@ -14,8 +14,7 @@ int conditional(int x, int y, int z);//
 int isPower2(int x);//
 
 int main() {
-    int x = 4, y = 7, z = 9;
-    printf("%i", fitsBits(-2147483648, 32));
+    //printf("%i", /*function*/);
     system("pause");
     return 0;
 }
@@ -48,14 +47,11 @@ int getByte(int x, int n){
 }
 
 int logicalShift(int x, int n){
-    return (x >> n) & ~((1 << 31) >> (n - 1));
+    return (x >> n) & (~(((1 << 31) >> n) << 1));
 }
 
 int addOK(int x, int y){
-    int signXY = (x + y) >> 31;
-    int signX = x >> 31;
-    int signY = y >> 31;
-    return !(~(signX ^ signXY) & (signX ^ signY));
+    return !(((x + y) ^ x) & (((x + y) ^ y)) >> 31);
 }
 
 int conditional(int x, int y, int z){
