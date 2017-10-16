@@ -14,8 +14,8 @@ int conditional(int x, int y, int z);//
 int isPower2(int x);//
 
 int main() {
-    /*int x = 4, y = 7, z = 9;
-    printf("%i", %funcname%);*/
+    int x = 4, y = 7, z = 9;
+    printf("%i", thirdBits());
     system("pause");
     return 0;
 }
@@ -29,9 +29,8 @@ int bitXor(int x, int y){
 }
 
 int thirdBits(void){
-    int x = 73; /*001001001*/
-    x = (x << 18) | (x << 9) | (x);
-    x = (x << 6) | 9;
+    int x = 36; /*00100100*/
+    x = x | (x << 6) | (x << 12) | (x << 18) | (x << 24);
     return x;
 }
 
