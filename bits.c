@@ -15,7 +15,7 @@ int isPower2(int x);//
 
 int main() {
     int x = 4, y = 7, z = 9;
-    printf("%i", thirdBits());
+    printf("%i", fitsBits(-2147483648, 32));
     system("pause");
     return 0;
 }
@@ -35,7 +35,8 @@ int thirdBits(void){
 }
 
 int fitsBits(int x, int n){
-    return !(((x & ~(x << 31)) + (~x & (x << 31))) >> (n + ~0));/* (x << 31) = 0, x>=0; =1, x<0 */
+    int dif = (~n + 1) + 32;
+    return !(x ^ ((x << dif) >> dif));
 }
 
 int sign(int x){
