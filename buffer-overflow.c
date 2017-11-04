@@ -15,13 +15,13 @@ int main() {
 }
 
 
-void input(){
+void input() {
     int i = 0;
     int intVal;
     char hex[8];
     int string[0];
 
-    while (1){
+    while (1 ){
         gets(hex);
         if (!strlen(hex)){
             break;
@@ -32,6 +32,6 @@ void input(){
     }
 }
 
-void other(){
+void other() {
     printf("Executed");
 }
