@@ -58,8 +58,8 @@ void strcat(char* dst, char* src){
 int strcmp(char* s1, char* s2){
     int i = 0;
     int res = 0;
-    int comp = *(s1+i) - *(s2+i);
-    while (((comp = *(s1+i) - *(s2+i))==0)&&(*(s1+i) != 0)){
+    int comp;
+    while (((comp = *(s1 + i) - *(s2 + i)) == 0) && (*(s1 + i) != 0)){
         i++;
     }
     return comp;
