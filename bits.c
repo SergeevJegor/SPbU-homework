@@ -14,7 +14,7 @@ int conditional(int x, int y, int z);//
 int isPower2(int x);//
 
 int main() {
-    //printf("%i", /*function*/);
+    //printf("%i",/*function*/);
     system("pause");
     return 0;
 }
@@ -51,7 +51,10 @@ int logicalShift(int x, int n){
 }
 
 int addOK(int x, int y){
-    return !(((x + y) ^ x) & (((x + y) ^ y)) >> 31);
+    int temp = (x + y) >> 31;
+    x = x >> 31;
+    y = y >> 31;
+    return !!(~temp | x | y) & (temp | ~x | ~y);
 }
 
 int conditional(int x, int y, int z){
