@@ -7,3 +7,5 @@ int listAddAfter(struct List* curList, int pos, int val);
 void listDelCondition(struct List* curList, int val);
 void listPrint(struct List* curList);
 void listClear(struct List* curList);
+struct List* listReverse(struct List* list);
+int listIsCycled(struct List* list);
