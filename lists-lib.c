@@ -36,18 +36,18 @@ struct List* action(struct List* list, int n){
     int val, pos;
     char c;
     switch (n){
-        case 1 :
+        case 1 ://print list
             listPrint(list);
             printf("\n");
             break;
-        case 2 :
+        case 2 ://create list
             printf("Enter list's head value:");
             scanf("%d", &val);
             list = listCreate(val);
             listCreated = 1;
             printf("\n");
             break;
-        case 3 :
+        case 3 ://add new head
             if (!listCreated){
                 printf("Create list first\n");
                 break;
@@ -57,7 +57,7 @@ struct List* action(struct List* list, int n){
             list = listAddHead(list, val);
             printf("\n");
             break;
-        case 4 :
+        case 4 ://add new tail
             if (!listCreated){
                 printf("Create list first\n");
                 break;
@@ -67,27 +67,27 @@ struct List* action(struct List* list, int n){
             listAddTail(list, val);
             printf("\n");
             break;
-        case 5 :
+        case 5 :// insert element
             if (!listCreated){
                 printf("Create list first\n");
                 break;
             }
-            printf("Enter position of the previous cell and value of new list's cell:");
+            printf("Enter position of the previous element and value of new list's element:");
             scanf("%d %d", &pos, &val);
             listAddAfter(list, pos, val);
             printf("\n");
             break;
-        case 6 :
+        case 6 ://delete elements equals to entered number
             if (!listCreated){
                 printf("Create list first\n");
                 break;
             }
-            printf("Enter value of cells that should be deleted:");
+            printf("Enter value of elements that should be deleted:");
             scanf("%d", &val);
             listDelCondition(list, val);
             printf("\n");
             break;
-        case 7 :
+        case 7 ://reverse list
             if (!listCreated){
                 printf("Create list first\n");
                 break;
@@ -96,7 +96,7 @@ struct List* action(struct List* list, int n){
             printf("List was successfully reversed");
             printf("\n");
             break;
-        case 8 :
+        case 8 ://delete list
             if (!listCreated){
                 printf("There is nothing to delete. Create list first\n");
                 break;
@@ -117,6 +117,10 @@ struct List* action(struct List* list, int n){
 struct List* listCreate(int a){
     struct List* newHead;
     newHead = (struct List*) malloc(sizeof(struct List));
+    if (!newHead){
+        printf("Cant allocate memory");
+        return NULL;
+    }
     newHead->value = a;
     newHead->pointer = NULL;
     return newHead;
@@ -124,6 +128,10 @@ struct List* listCreate(int a){
 
 struct List* listAddHead(struct List* curList, int val){
     struct List* newHead = (struct List*) malloc(sizeof(struct List));
+    if (!newHead){
+        printf("Cant allocate memory");
+        return NULL;
+    }
     newHead->pointer = curList;
     newHead->value = val;
     return newHead;
@@ -131,6 +139,10 @@ struct List* listAddHead(struct List* curList, int val){
 
 void listAddTail(struct List* curList, int val){
     struct List* newTail = (struct List*) malloc(sizeof(struct List));
+    if (!newTail){
+        printf("Cant allocate memory");
+        return;
+    }
     struct List* tmp;
     newTail->value = val;
     newTail->pointer = NULL;
@@ -144,6 +156,10 @@ void listAddTail(struct List* curList, int val){
 int listAddAfter(struct List* curList, int pos, int val){
     struct List* tmp = curList;
     struct List* newCell = (struct List*) malloc(sizeof(struct List));
+    if (!newCell){
+        printf("Cant allocate memory");
+        return 0;
+    }
     for (int i = 0; i < pos - 1; i++){
         if (tmp->pointer == NULL) return -1;
         tmp = tmp->pointer;
@@ -183,10 +199,12 @@ void listPrint(struct List* curList){
 }
 
 void listClear(struct List* curList){
-    if (curList->pointer != NULL){
-        listClear(curList->pointer);
+    struct List* prev = curList;
+    while (curList){
+        prev = curList;
+        curList = curList->pointer;
+        free(prev);
     }
-    free(curList);
 }
 
 void listReverseRecurtion(struct List* newList, struct List* prev){
