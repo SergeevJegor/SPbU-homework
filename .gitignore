@@ -54,4 +54,4 @@ dkms.conf
 # Clion project files
 CMakeLists.txt
 cmake-build-debug/
-
+.idea/
