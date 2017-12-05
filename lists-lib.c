@@ -9,7 +9,7 @@ struct List{
     struct List* pointer;
 };
 
-struct List* action(struct List* list, int funcN);
+struct List* action(struct List* list, int n);
 
 int main() {
     struct List* list;
@@ -31,7 +31,6 @@ int main() {
         scanf("%d", &n);
         list = action(list, n);
     }
-    return 0;
 }
 
 struct List* action(struct List* list, int n){
@@ -216,16 +215,6 @@ void listDelCondition(struct List* curList, int val){
 
 void listPrint(struct List* curList){
     struct List* tmp = curList;
-    struct List* checkList = curList;
-    char c;
-    if (listIsCycled(checkList)){
-        printf("List is cycled, proceed? (y/n)");
-        c = (char) getchar();
-        if (c != 'y'){
-            printf("Print failed");
-            return;
-        }
-    }
     while (tmp != NULL){
         printf("%i ", tmp->value);
         tmp = tmp->pointer;
