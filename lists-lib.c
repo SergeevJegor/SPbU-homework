@@ -219,8 +219,12 @@ void listPrint(struct List* curList){
     struct List* checkList = curList;
     char c;
     if (listIsCycled(checkList)){
-        printf("List is cycled, proceed?");
+        printf("List is cycled, proceed? (y/n)");
         c = (char) getchar();
+        if (c != 'y'){
+            printf("Print failed");
+            return;
+        }
     }
     while (tmp != NULL){
         printf("%i ", tmp->value);
