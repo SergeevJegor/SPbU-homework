@@ -117,7 +117,7 @@ struct List* action(struct List* list, int n){
             printf("Enter number of element to make cycle:");
             scanf("%d", &pos);
             printf("\n");
-            listCreateCycle(list, val);
+            listCreateCycle(list, pos - 1);
             break;
         case 10 ://delete list
             if (!listCreated){
@@ -216,6 +216,12 @@ void listDelCondition(struct List* curList, int val){
 
 void listPrint(struct List* curList){
     struct List* tmp = curList;
+    struct List* checkList = curList;
+    char c;
+    if (listIsCycled(checkList)){
+        printf("List is cycled, proceed?");
+        c = (char) getchar();
+    }
     while (tmp != NULL){
         printf("%i ", tmp->value);
         tmp = tmp->pointer;
@@ -256,12 +262,14 @@ struct List* listReverse(struct List* list){
 int listIsCycled(struct List* list){
     struct List* oneStep = list;
     struct List* twoSteps = list;
+    int i = 0;
     while (oneStep && twoSteps && twoSteps->pointer){
         oneStep = oneStep->pointer;
+        i++;
         twoSteps = twoSteps->pointer->pointer;
 
         if (oneStep == twoSteps){
-            return 1;//cycle detected
+            return i;//cycle detected
         }
     }
 
@@ -277,14 +285,11 @@ struct List* listCreateCycle(struct List* list, int n){
         }
         newList = newList->pointer;
     }
-    struct List* cycledList = list;
-    while (cycledList->pointer) cycledList = cycledList->pointer;
-    cycledList = newList;
-    if (!listIsCycled(cycledList)){
-        return cycledList;
-    }
-    else {
+    struct List* tailElem = list;
+    while (tailElem->pointer) tailElem = tailElem->pointer;
+    tailElem->pointer = newList;
+    if (!listIsCycled(list)){
         printf("Something went wrong");
-        return list;
     }
+    return list;
 }
