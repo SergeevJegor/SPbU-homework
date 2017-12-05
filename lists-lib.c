@@ -23,8 +23,10 @@ int main() {
                        " 5. Add new cell\n"
                        " 6. Delete cells\n"
                        " 7. Reverse list\n"
-                       " 8. Delete list\n"
-                       " 9. Exit\n"
+                       " 8. Check if list is cycled\n"
+                       " 9. Create cycle in list\n"
+                       " 10. Delete list\n"
+                       " 11. Exit\n"
         );
         scanf("%d", &n);
         list = action(list, n);
@@ -93,21 +95,43 @@ struct List* action(struct List* list, int n){
                 break;
             }
             list = listReverse(list);
-            printf("List was successfully reversed");
-            printf("\n");
+            printf("List was successfully reversed\n");
             break;
-        case 8 ://delete list
+        case 8 ://detect cycle
             if (!listCreated){
                 printf("There is nothing to delete. Create list first\n");
                 break;
             }
-            printf("List will be deleted. Continue? (y = yes, n = no)");
+            if (listIsCycled(list)){
+                printf("There is cycle in list\n");
+            }
+            else {
+                printf("There is no cycle in list\n");
+            }
+            break;
+        case 9 ://create cycle
+            if (!listCreated){
+                printf("There is nothing to delete. Create list first\n");
+                break;
+            }
+            printf("Enter number of element to make cycle:");
+            scanf("%d", &pos);
+            printf("\n");
+            listCreateCycle(list, val);
+            break;
+        case 10 ://delete list
+            if (!listCreated){
+                printf("There is nothing to delete. Create list first\n");
+                break;
+            }
+            printf("List will be deleted. Continue? (y = yes, n = no)\n");
             scanf(&c);
             if (c == 'y'){
                 listClear(list);
             }
             printf("\n");
             break;
+
         default :
             exit(0);
     }
@@ -230,5 +254,37 @@ struct List* listReverse(struct List* list){
 }
 
 int listIsCycled(struct List* list){
+    struct List* oneStep = list;
+    struct List* twoSteps = list;
+    while (oneStep && twoSteps && twoSteps->pointer){
+        oneStep = oneStep->pointer;
+        twoSteps = twoSteps->pointer->pointer;
 
+        if (oneStep == twoSteps){
+            return 1;//cycle detected
+        }
+    }
+
+    return 0;//no cycle in list
+}
+
+struct List* listCreateCycle(struct List* list, int n){
+    struct List* newList = list;
+    for (int i = 0; i < n; i++){
+        if (!newList){
+            printf("Entered number is bigger than list's length");
+            return list;
+        }
+        newList = newList->pointer;
+    }
+    struct List* cycledList = list;
+    while (cycledList->pointer) cycledList = cycledList->pointer;
+    cycledList = newList;
+    if (!listIsCycled(cycledList)){
+        return cycledList;
+    }
+    else {
+        printf("Something went wrong");
+        return list;
+    }
 }

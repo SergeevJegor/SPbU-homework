@@ -7,3 +7,4 @@ void listPrint(struct List* curList);
 void listClear(struct List* curList);
 struct List* listReverse(struct List* list);
 int listIsCycled(struct List* list);
+struct List* listCreateCycle(struct List* list, int n);
