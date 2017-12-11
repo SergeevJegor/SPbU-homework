@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int methodsAmount = 0;
 
 typedef struct {
     int sign;
@@ -8,9 +9,14 @@ typedef struct {
     int mantissa;
 } floatType;
 
+typedef struct {
+    void (* funcPointer)(floatType *);
+    char* funcDescription;
+} methods;
+
 void printFloat(floatType *f);
 
-void fillFloatType(int bits);
+void interfaceFloat(methods *m, floatType *f);
 
 void unionMethod(floatType *f);
 
@@ -22,7 +28,11 @@ void toFloat(int bits, floatType *f);
 
 int main() {
     floatType floatNum;
-    unionMethod(&floatNum);
+    methods allMethods[3] = {{&unionMethod, "Computation will use union (float and int)"},
+                             {&pointerMethod, "Computation will use integer dereference"},
+                             {&bitFieldsMethod, "Computation will use union (float with bit fields structure)"}};
+    methodsAmount = sizeof(allMethods)/sizeof(*allMethods);
+    interfaceFloat(allMethods, &floatNum);
     printFloat(&floatNum);
     return 0;
 }
@@ -38,8 +48,19 @@ void printFloat(floatType *f) {
         printf("NaN\n");
     else {
         printf("____%i  %i\n", f->sign, f->exponent - 127);
-        printf("(-1) * 2 * %f\n", 1 + (float) f->mantissa / (1 << 23));
+        printf("(-1) * 2 * %f\n", (float) f->mantissa / (1 << 23) + 1);
     }
+}
+
+void interfaceFloat(methods* m, floatType *f){
+    printf("What computation method do you want to use?\n");
+    for (int i = 0; i < methodsAmount; i++){
+        printf("%i. %s\n", i + 1, m[i].funcDescription);
+    }
+    int userChoice = 0;
+    scanf("%i", &userChoice);
+    userChoice--;
+    m[userChoice].funcPointer(f);
 }
 
 void unionMethod(floatType *f) {
