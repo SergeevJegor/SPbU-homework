@@ -18,24 +18,23 @@ void toFloat(int bits, floatType* f);
 int main() {
     floatType floatNum;
     unionMethod(&floatNum);
+    printFloat(&floatNum);
     return 0;
 }
 
 void printFloat(floatType* f){
-    if (f->sign) f->sign = -1;
-    else f->sign = 1;
-
     if (f->exponent == 0 && f->mantissa == 0)
         printf("Zero\n");
     else if (f->exponent == 255 && f->mantissa == 0){
-        if (f->sign == 1)
+        if (f->sign == 0)
             printf("+Infinity\n");
         else printf("-Infinity\n");
     }
     else if (f->exponent == 255 && f->mantissa != 0)
         printf("NaN\n");
     else {
-
+        printf("____%i  %i\n", f->sign, f->exponent - 127);
+        printf("(-1) * 2 * %f\n", 1+(float)f->mantissa / (1 << 23));
     }
 }
 
