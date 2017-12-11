@@ -2,50 +2,82 @@
 #include <stdlib.h>
 
 
-struct floatType{
+typedef struct {
     int sign;
     int exponent;
     int mantissa;
-};
+} floatType;
 
-void printFloat(struct floatType* f);
+void printFloat(floatType* f);
 void fillFloatType(int bits);
-void unionMethod(struct floatType* f);
-void pointerMethod(struct floatType* f);
-void bitFieldsMethod(struct floatType* f);
-void toFloat(int bits, struct floatType* f);
+void unionMethod(floatType* f);
+void pointerMethod(floatType* f);
+void bitFieldsMethod(floatType* f);
+void toFloat(int bits, floatType* f);
 
 int main() {
-    struct floatType floatNum;
+    floatType floatNum;
     unionMethod(&floatNum);
     return 0;
 }
 
-void printFloat(struct floatType* f){
+void printFloat(floatType* f){
     if (f->sign) f->sign = -1;
     else f->sign = 1;
-    
+
+    if (f->exponent == 0 && f->mantissa == 0)
+        printf("Zero\n");
+    else if (f->exponent == 255 && f->mantissa == 0){
+        if (f->sign == 1)
+            printf("+Infinity\n");
+        else printf("-Infinity\n");
+    }
+    else if (f->exponent == 255 && f->mantissa != 0)
+        printf("NaN\n");
+    else {
+
+    }
 }
 
-void unionMethod(struct floatType* f){
+void unionMethod(floatType* f){
     union{
         float floatVal;
         int intVal;
     } floatN;
+    if (sizeof(int) != sizeof(float)){
+        exit(1);
+    }
     float f1, f2;
     scanf("%f%f", &f1, &f2);
-    floatN.intVal = (float) f1/f2;
+    floatN.floatVal = f1/f2;
     toFloat(floatN.intVal, f);
-    printf(f);
 }
 
-void pointerMethod(struct floatType* f){
+void pointerMethod(floatType* f){
     float n;
-    scanf("%f", &n);
+    float f1, f2;
+    scanf("%f%f", &f1, &f2);
+    n = f1 / f2;
     toFloat(*(int *)(& n), f);
 }
 
-void toFloat(int bits, struct floatType* f){
+void bitFieldsMethod(floatType* f){
+    union{
+        float floatVal;
+        struct{
+            unsigned m : 23;
+            unsigned e : 8;
+            unsigned s : 1;
+        } bitFields;
+    } floatNum;
+
+    scanf("%f", &floatNum.floatVal);
+    f->sign = floatNum.bitFields.s;
+    f->exponent = floatNum.bitFields.e;
+    f->mantissa = floatNum.bitFields.m;
+}
+
+void toFloat(int bits, floatType* f){
     f->sign = (bits >> 31) & 1;
     f->exponent = (bits >> 23) & ((1 << 8) - 1);
     f->mantissa = bits & ((1 << 23) - 1);
