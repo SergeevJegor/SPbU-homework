@@ -1,3 +1,4 @@
+struct List;
 struct List* listCreate(int a);
 struct List* listAddHead(struct List* curList, int val);
 void listAddTail(struct List* curList, int val);
