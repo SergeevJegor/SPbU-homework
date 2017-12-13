@@ -1,28 +1,25 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
-void charDel(char* s, int n){
-    for (int i = n; i < strlen(s); i++){
-        s[i] = s[i+1];
-    }
-}
+const int MAX_LEN = 255;
 
 int main() {
-    char s[255];
     char c;
+    char s[MAX_LEN];
 
+    printf("Введите строку: \n");
     gets(s);
-    c =(char) getchar();
-    int i = 0;
-    while (s[i] != 0){
-        if (s[i] == c){
-            charDel(s, i);
-            i--;
+    printf("Введите символ: \n");
+    c = getchar();
+
+    int len = strlen(s);
+    for (int i = 0; i < len; i++){
+        if (s[i] != c){
+            printf("%c", s[i]);
         }
-        i++;
     }
-    printf("%s", s);
-    system("pause");
+    printf("\n");
+    getchar();
     return 0;
 }
