@@ -241,26 +241,20 @@ void listClear(struct List *curList) {
     }
 }
 
-void listReverseRecursion(struct List *newList, struct List *prev) {
-    if (newList->pointer == NULL) {
-        newList->pointer = prev;
-        return;
-    }
-    listReverseRecursion(newList->pointer, newList);
-    newList->pointer = prev;
-}
-
 struct List *listReverse(struct List *list) {
-    struct List *listReverseRecursion(struct List *newList, struct List *prev) {
-        if (newList->pointer == NULL) {
-            newList->pointer = prev;
-            return newList;
-        }
-        struct List *next = newList->pointer;
+    struct List *next, *prev;
+    struct List *newList = list;
+    next = newList->pointer;
+    prev = NULL;
+    while (next->pointer){
         newList->pointer = prev;
-        return listReverseRecursion(next, newList);
+        prev = newList;
+        newList = next;
+        next = next->pointer;
     }
-    return listReverseRecursion(list, NULL);
+    newList->pointer = prev;
+    next->pointer = newList;
+    return next;
 }
 
 int listIsCycled(struct List *list) {
