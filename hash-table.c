@@ -18,16 +18,21 @@ int hashFunction(char *key, int tableSize);
 
 struct linkedList *createTable(int size);
 
-void clearTable();
-
-void resizeTable();
+void clearTable(struct linkedList *table, int tableSize);
 
 void insertToTable();
+
+void parseText(struct linkedList* table, FILE *file);
 
 int main {
     int tableSize;
     printf("Enter size of hash table:\n");
     scanf("%i", &tableSize);
+    FILE *file = fopen("book.txt", "r");
+    if (!file) {
+        printf("Can't open file to read");
+        exit(2);
+    }
 
     return 0;
 };
@@ -44,12 +49,18 @@ int hashFunction(char *key, int tableSize) {
     return total % tableSize;
 }
 
-struct linkedList *createTable(int size){
-    struct linkedList* table = malloc(size * sizeof(struct linkedList));
-    if (!table){
+struct linkedList *createTable(int size) {
+    struct linkedList *table = malloc(size * sizeof(struct linkedList));
+    if (!table) {
         printf("Can't allocate memory. Abort");
         exit(1);
     }
     return table;
 }
 
+void clearTable(struct linkedList *table, int tableSize){
+    for (int i = 0; i < tableSize; i++){
+        struct linkedList *temp = table;
+        free(table + i);
+    }
+}
