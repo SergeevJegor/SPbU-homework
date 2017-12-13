@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int methodsAmount = 0;
-
 typedef struct {
     int sign;
     int exponent;
@@ -16,7 +14,7 @@ typedef struct {
 
 void printFloat(floatType *f);
 
-void interfaceFloat(methods *m, floatType *f);
+void interfaceFloat(methods *m, floatType *f, int methodsAmount);
 
 void unionMethod(floatType *f);
 
@@ -26,13 +24,15 @@ void bitFieldsMethod(floatType *f);
 
 void toFloat(int bits, floatType *f);
 
+void getFloats(float* f1, float* f2);
+
 int main() {
     floatType floatNum;
-    methods allMethods[3] = {{&unionMethod, "Computation will use union (float and int)"},
+    methods allMethods[] = {{&unionMethod, "Computation will use union (float and int)"},
                              {&pointerMethod, "Computation will use integer dereference"},
                              {&bitFieldsMethod, "Computation will use union (float with bit fields structure)"}};
-    methodsAmount = sizeof(allMethods)/sizeof(*allMethods);
-    interfaceFloat(allMethods, &floatNum);
+    int methodsAmount = sizeof(allMethods)/sizeof(*allMethods);
+    interfaceFloat(allMethods, &floatNum, methodsAmount);
     printFloat(&floatNum);
     return 0;
 }
@@ -52,7 +52,13 @@ void printFloat(floatType *f) {
     }
 }
 
-void interfaceFloat(methods* m, floatType *f){
+void getFloats(float* f1, float* f2){
+    printf("Enter 2 float numbers\n");
+    scanf("%f%f", f1, f2);
+
+}
+
+void interfaceFloat(methods* m, floatType *f, int methodsAmount){
     printf("What computation method do you want to use?\n");
     for (int i = 0; i < methodsAmount; i++){
         printf("%i. %s\n", i + 1, m[i].funcDescription);
@@ -72,7 +78,7 @@ void unionMethod(floatType *f) {
         exit(1);
     }
     float f1, f2;
-    scanf("%f%f", &f1, &f2);
+    getFloats(&f1, &f2);
     floatN.floatVal = f1 / f2;
     toFloat(floatN.intVal, f);
 }
@@ -80,7 +86,7 @@ void unionMethod(floatType *f) {
 void pointerMethod(floatType *f) {
     float n;
     float f1, f2;
-    scanf("%f%f", &f1, &f2);
+    getFloats(&f1, &f2);
     n = f1 / f2;
     toFloat(*(int *) (&n), f);
 }
@@ -94,8 +100,9 @@ void bitFieldsMethod(floatType *f) {
             unsigned s : 1;
         } bitFields;
     } floatNum;
-
-    scanf("%f", &floatNum.floatVal);
+    float f1, f2;
+    getFloats(&f1, &f2);
+    floatNum.floatVal = f1 / f2;
     f->sign = floatNum.bitFields.s;
     f->exponent = floatNum.bitFields.e;
     f->mantissa = floatNum.bitFields.m;
