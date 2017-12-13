@@ -60,7 +60,13 @@ struct linkedList *createTable(int size) {
 
 void clearTable(struct linkedList *table, int tableSize){
     for (int i = 0; i < tableSize; i++){
-        struct linkedList *temp = table;
+        struct Node *temp;
+        int j = 0;
+        while (table->head != NULL){
+            temp = table->head;
+            table->head = table->head->next;
+            free(temp);
+        }
         free(table + i);
     }
 }
