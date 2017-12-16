@@ -26,7 +26,7 @@ void getValueByKey(struct linkedList *table, int tableSize, char *key);
 
 void statistic(struct linkedList *table, int tableSize);
 
-void parseText(struct linkedList *table, FILE *file);
+void fillTable(struct linkedList *table, int tableSize, FILE *file);
 
 int main {
     int tableSize;
@@ -142,7 +142,27 @@ void statistic(struct linkedList *table, int tableSize) {
     printf("Average list length: %f", (float) totalListsLength / tableSize);
     printf("Most popular word: %s", mostPopularWord);
     printf("Most popular word frequency: %f", (float) mostPopularWordVal / totalWords);
+}
 
+void fillTable(struct linkedList *table, int tableSize, FILE *file) {
+    char word[50] = "";
+    while (fscanf(file, "%s", word) == 1) {
+        if (word == "–") continue;
+        int len = (int) strlen(word);
+        char finalWord[50];
+        for (int i = 0; i < 50; i++) finalWord[i] = 0;
+        for (int i = 0; i < len; i++) {
+            if (word[i] == '.', word[i] == ',', word[i] == '!', word[i] == '?', word[i] == ':', word[i] == ';')
+                continue;
+            char symbol[2];
+            symbol[0] = word[i];
+            symbol[1] = '\0';
+            strcat(finalWord, symbol);
+        }
+        if (strlen(finalWord) != 0) {
+            addToTable(table, finalWord, (int) strlen(finalWord), tableSize);
+        }
+    }
 }
 
 void clearTable(struct linkedList *table, int tableSize) {
