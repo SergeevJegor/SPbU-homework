@@ -24,6 +24,8 @@ void addToTable(struct linkedList *table, char *key, int keyLength, int tableSiz
 
 void getValueByKey(struct linkedList *table, int tableSize, char *key);
 
+void statistic(struct linkedList *table, int tableSize);
+
 void parseText(struct linkedList *table, FILE *file);
 
 int main {
@@ -105,6 +107,42 @@ void getValueByKey(struct linkedList *table, int tableSize, char *key) {
         temp = temp->next;
     }
     printf("Key wasn't found\n");
+}
+
+void statistic(struct linkedList *table, int tableSize) {
+    int totalWords = 0;
+    int totalUnicWords = 0;
+    char *mostPopularWord = "";
+    int mostPopularWordVal = 0;
+    int totalListsLength = 0;
+    int minListLength = table[0].length;
+    int maxListLength = 0;
+
+    for (int i = 0; i < tableSize; i++) {
+        int len = table[i].length;
+        totalUnicWords += len;
+        if (maxListLength < len) maxListLength = len;
+        if (minListLength > len) minListLength = len;
+    }
+    for (int i = 0; i < tableSize; i++) {
+        struct Node *temp = table[i].head;
+        while (temp) {
+            if (temp->value > mostPopularWordVal) {
+                mostPopularWordVal = temp->value;
+                mostPopularWord = temp->key;
+            }
+            totalWords += temp->value;
+            temp = temp->next;
+        }
+    }
+    printf("Uncial words: %i", totalUnicWords);
+    printf("Total words: %i", totalWords);
+    printf("Longest list length: %i", maxListLength);
+    printf("Shortest list length: %i", minListLength);
+    printf("Average list length: %f", (float) totalListsLength / tableSize);
+    printf("Most popular word: %s", mostPopularWord);
+    printf("Most popular word frequency: %f", (float) mostPopularWordVal / totalWords);
+
 }
 
 void clearTable(struct linkedList *table, int tableSize) {
