@@ -22,6 +22,8 @@ void clearTable(struct linkedList *table, int tableSize);
 
 void addToTable(struct linkedList *table, char *key, int keyLength, int tableSize);
 
+void getValueByKey(struct linkedList *table, int tableSize, char *key);
+
 void parseText(struct linkedList *table, FILE *file);
 
 int main {
@@ -90,6 +92,19 @@ void addToTable(struct linkedList *table, char *key, int keyLength, int tableSiz
         last->next = copyKey(key, keyLength);
         table[hash].length++;
     }
+}
+
+void getValueByKey(struct linkedList *table, int tableSize, char *key) {
+    int hash = hashFunction(key, tableSize);
+    struct Node *temp = table[hash].head;
+    while (temp) {
+        if (temp->key == key) {
+            printf("%s %d\n", key, temp->value);
+            return;
+        }
+        temp = temp->next;
+    }
+    printf("Key wasn't found\n");
 }
 
 void clearTable(struct linkedList *table, int tableSize) {
