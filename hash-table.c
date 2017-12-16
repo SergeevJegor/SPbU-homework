@@ -20,9 +20,9 @@ struct linkedList *createTable(int size);
 
 void clearTable(struct linkedList *table, int tableSize);
 
-void insertToTable();
+void addToTable(struct linkedList *table, char *key, int keyLength, int tableSize);
 
-void parseText(struct linkedList* table, FILE *file);
+void parseText(struct linkedList *table, FILE *file);
 
 int main {
     int tableSize;
@@ -58,11 +58,45 @@ struct linkedList *createTable(int size) {
     return table;
 }
 
-void clearTable(struct linkedList *table, int tableSize){
-    for (int i = 0; i < tableSize; i++){
+struct Node *copyKey(char *key, int keyLength) {
+    struct Node *node = malloc(sizeof(struct Node));
+    if (!node) {
+        printf("Can't allocate memory. Abort\n");
+        exit(1);
+    }
+    node->value = 1;
+    char *temp = malloc(keyLength + 1);
+    if (!temp) {
+        printf("Can't allocate memory. Abort\n");
+        exit(1);
+    }
+    temp[sizeof(key)] = "\0";
+    strcpy(temp, key);
+    node->key = temp;
+    return node;
+}
+
+void addToTable(struct linkedList *table, char *key, int keyLength, int tableSize) {
+    int hash = hashFunction(key, tableSize);
+    struct Node *last = table[hash].head;
+    if (!table[hash].head) {//no words with such hash
+        table[hash].head = copyKey(key, keyLength);
+        table[hash].length++;
+        return;
+    } else while (last->next && last->key != key) last = last->next;
+
+    if (last->key == key) last->value++;
+    else {
+        last->next = copyKey(key, keyLength);
+        table[hash].length++;
+    }
+}
+
+void clearTable(struct linkedList *table, int tableSize) {
+    for (int i = 0; i < tableSize; i++) {
         struct Node *temp;
         int j = 0;
-        while (table->head != NULL){
+        while (table->head != NULL) {
             temp = table->head;
             table->head = table->head->next;
             free(temp);
