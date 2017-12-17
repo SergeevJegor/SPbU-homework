@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 struct Node {
     char *key;
@@ -8,7 +9,7 @@ struct Node {
     struct Node *next;
 };
 
-struct linkedList {
+struct LinkedList {
     struct Node *head;
     int length;
 };
@@ -16,28 +17,35 @@ struct linkedList {
 int hashFunction(char *key, int tableSize);
 //s -- string. h(s) = (s[0] + s[1] * p + s[2] * p^2 + ... + s[i] * p^i) % tableSize; p -- prime number
 
-struct linkedList *createTable(int size);
+struct LinkedList *createTable(int size);
 
-void clearTable(struct linkedList *table, int tableSize);
+void clearTable(struct LinkedList *table, int tableSize);
 
-void addToTable(struct linkedList *table, char *key, int keyLength, int tableSize);
+void addToTable(struct LinkedList *table, char *key, int keyLength, int tableSize);
 
-void getValueByKey(struct linkedList *table, int tableSize, char *key);
+void getValueByKey(struct LinkedList *table, int tableSize, char *key);
 
-void statistic(struct linkedList *table, int tableSize);
+void statistic(struct LinkedList *table, int tableSize);
 
-void fillTable(struct linkedList *table, int tableSize, FILE *file);
+void fillTable(struct LinkedList *table, int tableSize, FILE *file);
 
-int main {
+int main() {
     int tableSize;
     printf("Enter size of hash table:\n");
     scanf("%i", &tableSize);
-    FILE *file = fopen("book.txt", "r");
+    clock_t start = clock();
+    struct LinkedList *table = createTable(tableSize);
+    FILE *file = fopen("/home/drundolet/homeworks-course1/book.txt", "r");
     if (!file) {
         printf("Can't open file to read");
         exit(2);
     }
-
+    fillTable(table, tableSize, file);
+    statistic(table, tableSize);
+    //clearTable(table, tableSize);
+    fclose(file);
+    clock_t end = clock();
+    printf("Work time: %f", (float) (end - start) / CLOCKS_PER_SEC);
     return 0;
 };
 
@@ -45,16 +53,16 @@ int hashFunction(char *key, int tableSize) {
     int p = 1;
     int total = 0;
     int i = 0;
-    while (key[i] != "\0") {
-        total += key[i] * p;
-        p *= 73;
+    while (key[i] != '\0') {
+        total += ((int) key[i]) * p;
+        p *= 5;
         i++;
     }
     return total % tableSize;
 }
 
-struct linkedList *createTable(int size) {
-    struct linkedList *table = malloc(size * sizeof(struct linkedList));
+struct LinkedList *createTable(int size) {
+    struct LinkedList *table = malloc(size * sizeof(struct LinkedList));
     if (!table) {
         printf("Can't allocate memory. Abort");
         exit(1);
@@ -80,7 +88,7 @@ struct Node *copyKey(char *key, int keyLength) {
     return node;
 }
 
-void addToTable(struct linkedList *table, char *key, int keyLength, int tableSize) {
+void addToTable(struct LinkedList *table, char *key, int keyLength, int tableSize) {
     int hash = hashFunction(key, tableSize);
     struct Node *last = table[hash].head;
     if (!table[hash].head) {//no words with such hash
@@ -96,7 +104,7 @@ void addToTable(struct linkedList *table, char *key, int keyLength, int tableSiz
     }
 }
 
-void getValueByKey(struct linkedList *table, int tableSize, char *key) {
+void getValueByKey(struct LinkedList *table, int tableSize, char *key) {
     int hash = hashFunction(key, tableSize);
     struct Node *temp = table[hash].head;
     while (temp) {
@@ -109,7 +117,7 @@ void getValueByKey(struct linkedList *table, int tableSize, char *key) {
     printf("Key wasn't found\n");
 }
 
-void statistic(struct linkedList *table, int tableSize) {
+void statistic(struct LinkedList *table, int tableSize) {
     int totalWords = 0;
     int totalUnicWords = 0;
     char *mostPopularWord = "";
@@ -135,16 +143,16 @@ void statistic(struct linkedList *table, int tableSize) {
             temp = temp->next;
         }
     }
-    printf("Uncial words: %i", totalUnicWords);
-    printf("Total words: %i", totalWords);
-    printf("Longest list length: %i", maxListLength);
-    printf("Shortest list length: %i", minListLength);
-    printf("Average list length: %f", (float) totalListsLength / tableSize);
-    printf("Most popular word: %s", mostPopularWord);
-    printf("Most popular word frequency: %f", (float) mostPopularWordVal / totalWords);
+    printf("Uncial words: %i\n", totalUnicWords);
+    printf("Total words: %i\n", totalWords);
+    printf("Longest list length: %i\n", maxListLength);
+    printf("Shortest list length: %i\n", minListLength);
+    printf("Average list length: %f\n", (float) totalListsLength / tableSize);
+    printf("Most popular word: %s\n", mostPopularWord);
+    printf("Most popular word frequency: %f\n", (float) mostPopularWordVal / totalWords);
 }
 
-void fillTable(struct linkedList *table, int tableSize, FILE *file) {
+void fillTable(struct LinkedList *table, int tableSize, FILE *file) {
     char word[50] = "";
     while (fscanf(file, "%s", word) == 1) {
         if (word == "–") continue;
@@ -165,7 +173,7 @@ void fillTable(struct linkedList *table, int tableSize, FILE *file) {
     }
 }
 
-void clearTable(struct linkedList *table, int tableSize) {
+void clearTable(struct LinkedList *table, int tableSize) {
     for (int i = 0; i < tableSize; i++) {
         struct Node *temp;
         int j = 0;
