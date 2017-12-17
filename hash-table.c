@@ -30,9 +30,9 @@ void statistic(struct LinkedList *table, int tableSize);
 void fillTable(struct LinkedList *table, int tableSize, FILE *file);
 
 int main() {
-    int tableSize = 10;
-    //printf("Enter size of hash table:\n");
-    //scanf("%i", &tableSize);
+    int tableSize;
+    printf("Enter size of hash table:\n");
+    scanf("%i", &tableSize);
     clock_t start = clock();
     struct LinkedList *table = createTable(tableSize);
     FILE *file = fopen("/home/drundolet/homeworks-course1/book.txt", "r");
@@ -42,7 +42,7 @@ int main() {
     }
     fillTable(table, tableSize, file);
     statistic(table, tableSize);
-    //clearTable(table, tableSize);
+    clearTable(table, tableSize);
     fclose(file);
     clock_t end = clock();
     printf("Work time: %f", (float) (end - start) / CLOCKS_PER_SEC);
@@ -180,13 +180,16 @@ void fillTable(struct LinkedList *table, int tableSize, FILE *file) {
 
 void clearTable(struct LinkedList *table, int tableSize) {
     for (int i = 0; i < tableSize; i++) {
-        struct Node *temp;
+        struct Node *temp = table[i].head;
         int j = 0;
-        while (table->head != NULL) {
-            temp = table->head;
-            table->head = table->head->next;
+        while (table[i].head) {
+            table[i].head = temp->next;
+            free(temp->key);
             free(temp);
+            temp = table[i].head;
         }
-        free(table + i);
+        table[i].length = 0;
+        free(table[i].head);
     }
+    free(table);
 }
