@@ -12,6 +12,8 @@ struct tree {
 void quickSort(int *a, int arraySize, int *f);
 void swapIntegers(int *a, int *b);
 
+void genTreePicture(struct tree *tree, int isRoot, int totalNum, FILE *output);
+
 /*
  * Основные свойства:
  * 1. a -- отсортированный массив, тогда если a[i] -- корень дерева, то элементы 1..(i-1) лежат в левом поддереве,
@@ -51,13 +53,23 @@ int main() {
     //Sorting:
     quickSort(a, numTotal, f);
 
-    int p[numTotal+1];//p[numTotal] == requestsTotal
+    int p[numTotal + 1];//p[numTotal] == requestsTotal
     p[0] = 0;
     for (int i = 1; i < numTotal + 1; i++) {
         p[i] = p[i - 1] + f[i - 1];
     }
 
     struct tree *finalTree = buildTree(a, f, p, 0, numTotal - 1, numTotal);
+
+    FILE *outputFile = fopen("/home/drundolet/homeworks-course1/output.dot", "w");
+    if (!outputFile) {
+        printf("Can't open file to read\n");
+        exit(1);
+    }
+
+    genTreePicture(finalTree, 1, numTotal, outputFile);
+    fprintf(outputFile, "}");
+
     return 0;
 }
 
@@ -74,12 +86,12 @@ struct tree *buildTree(int *a, int *f, int *p, int l, int r, int numTotal) {
     }
 
 
-    int min = abs((p[l-1] + p[l+1]) - (p[r+1] + p[l-1]));
+    int min = abs((p[l - 1] + p[l + 1]) - (p[r + 1] + p[l - 1]));
     int minPos = l;
 
     for (int i = l; i < r; i++) {
-        if (abs((p[i-1] + p[i+1]) - (p[r+1] + p[l-1])) < min) {
-            min = abs((p[i-1] + p[i+1]) - (p[r+1] + p[l-1]));
+        if (abs((p[i - 1] + p[i + 1]) - (p[r + 1] + p[l - 1])) < min) {
+            min = abs((p[i - 1] + p[i + 1]) - (p[r + 1] + p[l - 1]));
             minPos = i;
         }
     }
@@ -90,6 +102,26 @@ struct tree *buildTree(int *a, int *f, int *p, int l, int r, int numTotal) {
     node->totalFreq = p[r + 1] - p[l];
     node->left = buildTree(a, f, p, l, minPos - 1, numTotal);
     node->right = buildTree(a, f, p, minPos + 1, r, numTotal);
+    return node;
+}
+
+void genTreePicture(struct tree *tree, int isRoot, int totalNum, FILE *output) {
+    if (isRoot) {
+        fprintf(output, "digraph {\n");
+        isRoot = 0;
+    }
+
+    if (tree->left) {
+        fprintf(output, "\"%d\\n%d\" -> \"%d\\n%d\"\n",
+                tree->num, tree->localFreq, tree->left->num, tree->left->localFreq);
+        genTreePicture(tree->left, isRoot, totalNum, output);
+    }
+
+    if (tree->right) {
+        fprintf(output, "\"%d\\n%d\" -> \"%d\\n%d\"\n",
+                tree->num, tree->localFreq, tree->right->num, tree->right->localFreq);
+        genTreePicture(tree->right, isRoot, totalNum, output);
+    }
 }
 
 void swapIntegers(int *a, int *b) {
