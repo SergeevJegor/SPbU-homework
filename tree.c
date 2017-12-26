@@ -30,7 +30,7 @@ void swapIntegers(int *a, int *b);
  * 6. После выбора корня рекурсивно переходим на левое и правое поддеревья.
  */
 
-struct tree *buildTree(int *a, int *f, int *p, int *q, int l, int r, int numTotal);
+struct tree *buildTree(int *a, int *f, int *p, int l, int r, int numTotal);
 
 int main() {
     FILE *inputFile = fopen("/home/drundolet/homeworks-course1/tree.txt", "r");
@@ -57,15 +57,11 @@ int main() {
         p[i] = p[i - 1] + f[i - 1];
     }
 
-    int q[numTotal];
-    for (int i = 0; i < numTotal; i++) {
-        q[i] = p[i] + p[i + 1];
-    }
-
+    struct tree *finalTree = buildTree(a, f, p, 0, numTotal - 1, numTotal);
     return 0;
 }
 
-struct tree *buildTree(int *a, int *f, int *p, int *q, int l, int r, int numTotal) {
+struct tree *buildTree(int *a, int *f, int *p, int l, int r, int numTotal) {
     if (l > r) return NULL;
 
     if (l == r) {
@@ -77,8 +73,23 @@ struct tree *buildTree(int *a, int *f, int *p, int *q, int l, int r, int numTota
         return leaf;
     }
 
-    struct tree *node = malloc(sizeof(struct tree));
 
+    int min = abs((p[l-1] + p[l+1]) - (p[r+1] + p[l-1]));
+    int minPos = l;
+
+    for (int i = l; i < r; i++) {
+        if (abs((p[i-1] + p[i+1]) - (p[r+1] + p[l-1])) < min) {
+            min = abs((p[i-1] + p[i+1]) - (p[r+1] + p[l-1]));
+            minPos = i;
+        }
+    }
+
+    struct tree *node = malloc(sizeof(struct tree));
+    node->num = a[minPos];
+    node->localFreq = f[minPos];
+    node->totalFreq = p[r + 1] - p[l];
+    node->left = buildTree(a, f, p, l, minPos - 1, numTotal);
+    node->right = buildTree(a, f, p, minPos + 1, r, numTotal);
 }
 
 void swapIntegers(int *a, int *b) {
