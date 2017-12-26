@@ -12,6 +12,8 @@ struct tree {
 void quickSort(int *a, int arraySize, int *f);
 void swapIntegers(int *a, int *b);
 
+void clearTree(struct tree *t);
+
 void genTreePicture(struct tree *tree, int isRoot, int totalNum, FILE *output);
 
 /*
@@ -70,6 +72,11 @@ int main() {
     genTreePicture(finalTree, 1, numTotal, outputFile);
     fprintf(outputFile, "}");
 
+    clearTree(finalTree);
+
+    fclose(inputFile);
+    fclose(outputFile);
+
     return 0;
 }
 
@@ -122,6 +129,12 @@ void genTreePicture(struct tree *tree, int isRoot, int totalNum, FILE *output) {
                 tree->num, tree->localFreq, tree->right->num, tree->right->localFreq);
         genTreePicture(tree->right, isRoot, totalNum, output);
     }
+}
+
+void clearTree(struct tree *t){
+    if (t->left) clearTree(t->left);
+    if (t->right) clearTree((t->right));
+    free(t);
 }
 
 void swapIntegers(int *a, int *b) {
