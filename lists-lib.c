@@ -16,11 +16,6 @@
 
 int listCreated = 0;
 
-struct List {
-    int value;
-    struct List *pointer;
-};
-
 struct List *action(struct List *list, int n);
 
 int main() {
