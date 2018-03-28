@@ -1,2 +1,2 @@
-# homeworks-course1
-My hometasks (1st course, 2017-2018)
+# SPbU-homework
+My St Petersburg University hometasks
