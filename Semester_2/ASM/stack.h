@@ -8,18 +8,18 @@
  *  Fields:
  *   elements -- array of int;
  *   size -- amount of ints already allocated
- *   busy -- amount of ints already used */
+ *   amount -- amount of ints already used */
 
 typedef struct {
     int *elements;
     int size;
-    int busy;
+    int amount;
 } Stack;
 
 
 /* Functions description:
  *  createStack -- creating stack pointer without allocating memory for ints
- *  clearStack -- clearing array and setting size and busy fields to default
+ *  clearStack -- clearing array and setting size and amount fields to default
  *  deleteStack -- free all memory used by stack
  *  pushStack -- push element to the top of stack. Reallocate memory if no free memory left
  *  popStack -- pop element from the top of stack */

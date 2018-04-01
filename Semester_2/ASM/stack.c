@@ -20,7 +20,7 @@ void clearStack(Stack *stack) {
     }
     if (stack->elements)
         free(stack->elements);
-    stack->busy = -1;
+    stack->amount = -1;
     stack->elements = 0;
 }
 
@@ -40,27 +40,27 @@ void pushStack(Stack *stack, int element) {
     }
 
     /* Description:
-     *  If array hasn't been inited yet, then alloc memory for INITIAL_STACK_SIZE amount of int, update busy and size fields
-     *  If all allocated memory is busy, then realloc memory (in SIZE_MULTIPLIER times more) and update size field
-     *  Push element and update busy field (if it hasn't been updated yet) */
+     *  If array hasn't been inited yet, then alloc memory for INITIAL_STACK_SIZE amount of int, update amount and size fields
+     *  If all allocated memory is amount, then realloc memory (in SIZE_MULTIPLIER times more) and update size field
+     *  Push element and update amount field (if it hasn't been updated yet) */
     if (!stack->size) {
         stack->size = INITIAL_STACK_SIZE;
         stack->elements = (int *) calloc(stack->size, sizeof(int));
         if (!stack->elements) {
             printf("ERROR: Cannot allocate memory for stack elements");
         }
-        stack->busy = 0;
+        stack->amount = 0;
     } else {
-        if (stack->size <= stack->busy + 1) {
+        if (stack->size <= stack->amount + 1) {
             stack->size *= SIZE_MULTIPLIER;
             stack->elements = (int *) realloc(stack->elements, sizeof(int) * stack->size);
             if (!stack->elements) {
                 printf("ERROR: Cannot allocate memory for stack elements");
             }
         }
-        stack->busy++;
+        stack->amount++;
     }
-    stack->elements[stack->busy] = element;
+    stack->elements[stack->amount] = element;
 }
 
 int popStack(Stack *stack) {
@@ -69,13 +69,13 @@ int popStack(Stack *stack) {
         exit(1); // TODO invent error number
     }
 
-    if (stack->busy < 0) {
+    if (stack->amount < 0) {
         printf("ERROR: Trying tot pop from empty stack");
         exit(1); // TODO invent error number
     }
 
-    int value = stack->elements[stack->busy];
-    stack->busy--;
+    int value = stack->elements[stack->amount];
+    stack->amount--;
 
     return value;
 }
