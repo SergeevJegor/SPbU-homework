@@ -10,6 +10,12 @@ Stack *createStack() {
         printf("ERROR: Cannot allocate memory for stack");
         exit(1); // TODO invent error number
     }
+    stack->size = INITIAL_STACK_SIZE;
+    stack->elements = (int *) calloc(stack->size, sizeof(int));
+    if (!stack->elements) {
+        printf("ERROR: Cannot allocate memory for stack elements");
+    }
+    stack->amount = 0;
     return stack;
 }
 
@@ -38,28 +44,16 @@ void pushStack(Stack *stack, int element) {
         printf("ERROR: Stack doesn't exist");
         return;
     }
-
-    /* Description:
-     *  If array hasn't been inited yet, then alloc memory for INITIAL_STACK_SIZE amount of int, update amount and size fields
-     *  If all allocated memory is amount, then realloc memory (in SIZE_MULTIPLIER times more) and update size field
-     *  Push element and update amount field (if it hasn't been updated yet) */
-    if (!stack->size) {
-        stack->size = INITIAL_STACK_SIZE;
-        stack->elements = (int *) calloc(stack->size, sizeof(int));
+    /* If all allocated memory is amount, then realloc memory (in SIZE_MULTIPLIER times more) and update size field
+     * Push element and update amount field (if it hasn't been updated yet) */
+    if (stack->size <= stack->amount + 1) {
+        stack->size *= SIZE_MULTIPLIER;
+        stack->elements = (int *) realloc(stack->elements, sizeof(int) * stack->size);
         if (!stack->elements) {
             printf("ERROR: Cannot allocate memory for stack elements");
         }
-        stack->amount = 0;
-    } else {
-        if (stack->size <= stack->amount + 1) {
-            stack->size *= SIZE_MULTIPLIER;
-            stack->elements = (int *) realloc(stack->elements, sizeof(int) * stack->size);
-            if (!stack->elements) {
-                printf("ERROR: Cannot allocate memory for stack elements");
-            }
-        }
-        stack->amount++;
     }
+    stack->amount++;
     stack->elements[stack->amount] = element;
 }
 

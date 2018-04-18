@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "format.h"
 #include "commandStructure.h"
 #include "parser.h"
@@ -13,11 +14,22 @@ typedef struct {
 } MarkedCommand;
 
 typedef struct {
-    MarkedCommand * 
-};
+    MarkedCommand *markers;
+    Command *commands;
 
-int correctCommand(char com[MAX_STRING_LEN]);
+    int markersSize;
+    int commandsSize;
 
-Command parseCommand(char com[MAX_STRING_LEN]);
+    int markersAmount;
+    int commandsAmount;
+} Parser;
+
+Parser *createParser();
+
+void deleteParser(Parser *parser);
+
+int parseFile(Parser *parser, const char *fileName);
+
+Command *getCommandsList(Parser *parser);
 
 #endif
