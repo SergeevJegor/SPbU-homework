@@ -9,18 +9,21 @@
 #include "parser.h"
 
 typedef struct {
-    char marker[MAX_STRING_LEN];
+    char *marker;
     int commandNumber;
 } MarkedCommand;
 
 typedef struct {
     MarkedCommand *markers;
+    MarkedCommand *markerDestination;
     Command *commands;
 
     int markersSize;
+    int markerDestinationSize;
     int commandsSize;
 
     int markersAmount;
+    int markerDestinationAmount;
     int commandsAmount;
 } Parser;
 
