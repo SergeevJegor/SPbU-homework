@@ -67,21 +67,6 @@ void deleteParser(Parser *parser) {
     free(parser);
 }
 
-void resizeCommandsArray(Parser *parser) {
-    parser->commandsSize *= SIZE_MULTIPLIER;
-    parser->commands = (Command *) realloc(parser->commands, parser->commandsSize * sizeof(Command));
-}
-
-void resizeMarkersArray(Parser *parser) {
-    parser->markersSize *= SIZE_MULTIPLIER;
-    parser->markers = (MarkedCommand *) realloc(parser->markers, parser->markersSize * sizeof(MarkedCommand));
-}
-
-void resizeMarkerDestinationArray(Parser *parser) {
-    parser->markerDestinationSize *= SIZE_MULTIPLIER;
-    parser->markerDestination = (MarkedCommand *) realloc(parser->markerDestination, parser->markerDestinationSize * sizeof(MarkedCommand));
-}
-
 void addCommand(Parser *parser, const int commandID, const int argument, const char *marker) {
     // Resize command and marker arrays, if needed:
     if (parser->commandsSize == parser->commandsAmount) {
@@ -398,11 +383,4 @@ int parseFile(Parser *parser, const char *fileName) {
         }
     }
     fclose(program);
-    /*
-    if (parsingResult) {
-        for (int i = 0; i < parser->commandsAmount; i++) {
-            printf("Command: %d. Argument: %d\n", parser->commands[i].command_id, parser->commands[i].argument);
-        }
-    }
-     */
 }
