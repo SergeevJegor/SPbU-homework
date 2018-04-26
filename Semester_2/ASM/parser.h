@@ -9,7 +9,7 @@
 #include "parser.h"
 
 typedef struct {
-    char *marker;
+    char marker[MAX_STRING_LEN];
     int commandNumber;
 } MarkedCommand;
 
@@ -32,7 +32,5 @@ Parser *createParser();
 void deleteParser(Parser *parser);
 
 int parseFile(Parser *parser, const char *fileName);
-
-Command *getCommandsList(Parser *parser);
 
 #endif

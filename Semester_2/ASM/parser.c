@@ -1,7 +1,7 @@
 #include "parser.h"
 #include "commandStructure.h"
 
-#define INITIAL_SIZE 1
+#define INITIAL_SIZE 128
 #define SIZE_MULTIPLIER 2
 
 #define E_FORMAT 1
@@ -15,7 +15,7 @@
 
 #define CHECK_ERRORS \
 if (errorID) {\
-    resolveErrors(errorID, lineIndex, commandLine);\
+    resolveErrors(errorID, lineIndex, commandLine, &parsingResult);\
     lineIndex++;\
     continue;\
 }
@@ -28,19 +28,19 @@ Parser *createParser() {
         exit(1);
     }
     parser->commandsSize = INITIAL_SIZE;
-    parser->commands = (Command *) calloc(parser->commandsSize, sizeof(Command));
+    parser->commands = (Command *) calloc((size_t) parser->commandsSize, sizeof(Command));
     if (!parser->commands) {
         printf("ERROR: Cannot allocate memory for command array in parser");
         exit(1);
     }
     parser->markersSize = INITIAL_SIZE;
-    parser->markers = (MarkedCommand *) calloc(parser->markersSize, sizeof(MarkedCommand));
+    parser->markers = (MarkedCommand *) calloc((size_t) parser->markersSize, sizeof(MarkedCommand));
     if (!parser->markers) {
         printf("ERROR: Cannot allocate memory for marker array in parser");
         exit(1);
     }
     parser->markerDestinationSize = INITIAL_SIZE;
-    parser->markerDestination = (MarkedCommand *) calloc(parser->markerDestinationSize, sizeof(MarkedCommand));
+    parser->markerDestination = (MarkedCommand *) calloc((size_t) parser->markerDestinationSize, sizeof(MarkedCommand));
     if (!parser->markerDestination) {
         printf("ERROR: Cannot allocate memory for marker array in parser");
         exit(1);
@@ -67,33 +67,46 @@ void deleteParser(Parser *parser) {
     free(parser);
 }
 
-void *resizeArray(void *array, size_t sizeOfElement, int *size) {
-    *size *= SIZE_MULTIPLIER;
-    return realloc(array, sizeOfElement * (*size));
+void resizeCommandsArray(Parser *parser) {
+    parser->commandsSize *= SIZE_MULTIPLIER;
+    parser->commands = (Command *) realloc(parser->commands, parser->commandsSize * sizeof(Command));
+}
+
+void resizeMarkersArray(Parser *parser) {
+    parser->markersSize *= SIZE_MULTIPLIER;
+    parser->markers = (MarkedCommand *) realloc(parser->markers, parser->markersSize * sizeof(MarkedCommand));
+}
+
+void resizeMarkerDestinationArray(Parser *parser) {
+    parser->markerDestinationSize *= SIZE_MULTIPLIER;
+    parser->markerDestination = (MarkedCommand *) realloc(parser->markerDestination, parser->markerDestinationSize * sizeof(MarkedCommand));
 }
 
 void addCommand(Parser *parser, const int commandID, const int argument, const char *marker) {
     // Resize command and marker arrays, if needed:
-    if (parser->commandsSize == parser->commandsAmount)
-        parser->commands = (Command *) resizeArray(parser->commands, sizeof(Command), &parser->commandsSize);
-    if (parser->markersSize == parser->markersAmount)
-        parser->markers = (MarkedCommand *) resizeArray(parser->markers, sizeof(MarkedCommand), &parser->markersSize);
+    if (parser->commandsSize == parser->commandsAmount) {
+        parser->commandsSize *= SIZE_MULTIPLIER;
+        parser->commands = (Command *) realloc(parser->commands, parser->commandsSize * sizeof(Command));
+    }
+    if (parser->markersSize == parser->markersAmount) {
+        parser->markersSize *= SIZE_MULTIPLIER;
+        parser->markers = (MarkedCommand *) realloc(parser->markers, parser->markersSize * sizeof(MarkedCommand));
+    }
     // Add command with argument:
     parser->commands[parser->commandsAmount].command_id = commandID;
     parser->commands[parser->commandsAmount].argument = argument;
-    // Link command number with marker if needed: // TODO correct addMarker
+    // Link command number with marker if needed:
     if (marker != "") {
-        parser->markersAmount++;
         strcpy(parser->markers[parser->markersAmount].marker, marker);
         parser->markers[parser->markersAmount].commandNumber = parser->commandsAmount;
+        parser->markersAmount++;
     }
     parser->commandsAmount++;
 }
 
-char *formatCommandLine(const char *commandLine) {
+void formatCommandLine(const char *commandLine, char formattedLine[MAX_STRING_LEN]) {
     int freeIndex = 0;
     int i = 0;
-    char *formattedLine = "";
     // Removing spaces at the beginning of line
     while (commandLine[i] == ' ')
         i++;
@@ -114,7 +127,6 @@ char *formatCommandLine(const char *commandLine) {
         freeIndex++;
         i++;
     }
-    return formattedLine;
 }
 
 int isNameCorrect(const char *name) {
@@ -130,33 +142,40 @@ int isNameCorrect(const char *name) {
             return 0;
         i++;
     }
-    return E_FORMAT;
+    return 1;
 }
 
-void resolveErrors(const int errorID, int lineNumber, char commandLine[MAX_STRING_LEN]) {
+void resolveErrors(const int errorID, int lineNumber, char commandLine[MAX_STRING_LEN], int *parsingResult) {
     switch (errorID) {
         case 0:
             return;
         case E_FORMAT:
             printf("ERROR: Incorrect format in line %d\n->\"%s\"\n", lineNumber + 1, commandLine);
+            *parsingResult = FALSE;
             break;
         case E_MARKER_FORMAT:
             printf("ERROR: Marker has incorrect format in line %d\n->\"%s\"\n", lineNumber + 1, commandLine);
+            *parsingResult = FALSE;
             break;
         case E_COM_FORMAT:
             printf("ERROR: Command has incorrect format in line %d\n->\"%s\"\n", lineNumber + 1, commandLine);
+            *parsingResult = FALSE;
             break;
         case E_MARKER_DUPLICATED:
             printf("ERROR: Duplicated marker in line %d\n->\"%s\"\n", lineNumber + 1, commandLine);
+            *parsingResult = FALSE;
             break;
         case E_ARG_UNEXPECTED:
             printf("ERROR: Unexpected argument(s) in line %d\n->\"%s\"\n", lineNumber + 1, commandLine);
+            *parsingResult = FALSE;
             break;
         case E_ARG_FORMAT:
             printf("ERROR: Argument has wrong format in line %d\n->\"%s\"\n", lineNumber + 1, commandLine);
+            *parsingResult = FALSE;
             break;
         case E_ARG_MISSED:
             printf("ERROR: Argument missed in line %d\n->\"%s\"\n", lineNumber + 1, commandLine);
+            *parsingResult = FALSE;
             break;
         default:
             printf("ERROR: Unknown error\n");
@@ -169,14 +188,14 @@ int isMarker(const char *marker) {
     return marker[strlen(marker) - 1] == ':';
 }
 
-int isMarkerCorrect(Parser *parser, const char *marker) { // TODO make addMarker
+int isMarkerCorrect(Parser *parser, const char *marker) {
     // Checking if string is marker:
     if (!isMarker(marker)) {
         printf("ERROR: Argument should be correct marker. Abort");
         return ERROR;
     }
     // Checking if marker have correct name:
-    char markerName[MAX_STRING_LEN];
+    char markerName[MAX_STRING_LEN] = "";
     strncpy(markerName, marker, strlen(marker) - 1);
     if (!isNameCorrect(markerName))
         return E_MARKER_FORMAT;
@@ -222,18 +241,22 @@ int isCommandCorrect(const char *commandName) {
 }
 
 int addDestinationMarker(Parser *parser, const char *destinationMarker) {
-    if (parser->markerDestinationSize == parser->markerDestinationAmount)
-        parser->markerDestination = (MarkedCommand *) resizeArray(parser->markerDestination, sizeof(MarkedCommand),
-                                                                  &parser->markerDestinationSize);
+    if (parser->markerDestinationSize == parser->markerDestinationAmount) {
+        parser->markerDestinationSize *= SIZE_MULTIPLIER;
+        parser->markerDestination = (MarkedCommand *) realloc(parser->markerDestination,
+                                                              parser->markerDestinationSize * sizeof(MarkedCommand));
+    }
     MarkedCommand destinationMarkerAssociation;
     strcpy(destinationMarkerAssociation.marker, destinationMarker);
-    destinationMarkerAssociation.commandNumber = -1;
+    destinationMarkerAssociation.commandNumber = -1; // TODO edit -1 to commandNumber
     parser->markerDestination[parser->markerDestinationAmount] = destinationMarkerAssociation;
+    parser->markerDestinationAmount++;
+    return parser->markerDestinationAmount - 1;
 }
 
 int doesFuncTakeMarkerArg(const int commandID) {
     if ((commandID == JMP) || (commandID == BR))
-        return E_FORMAT;
+        return 1;
     else return 0;
 }
 
@@ -296,16 +319,20 @@ int parseFile(Parser *parser, const char *fileName) {
         exit(2);
     }
 
+    int parsingResult = TRUE;
+
     int lineIndex = 0;
-    char commandLine[MAX_STRING_LEN];
+    char commandLine[MAX_STRING_LEN] = "";
     while (!feof(program)) {
         int errorID = 0;
 
         fgets(commandLine, MAX_STRING_LEN, program);
+        if (commandLine[strlen(commandLine) - 1] == '\n')
+            commandLine[strlen(commandLine) - 1] = '\0';
 
-        char *formattedLine = "";
-        strcpy(formattedLine, formatCommandLine(commandLine));
-        if (formattedLine[0] == '\0') {
+        char formattedLine[MAX_STRING_LEN] = "";
+        formatCommandLine(commandLine, formattedLine);
+        if (!formattedLine[0]) {
             lineIndex++;
             continue;
         }
@@ -316,17 +343,18 @@ int parseFile(Parser *parser, const char *fileName) {
         int wordsAmount = 0;
         while (wordsAmount < 4) {
             words[wordsAmount] = currentWord;
-            currentWord = strtok(formattedLine, " ");
+            currentWord = strtok(NULL, " ");
             wordsAmount++;
         }
 
         char *marker = "";
-        char *argument = 0;
+        char *argument = "";
         int integerArgument = 0;
         if (isMarker(words[0])) {
             errorID = isMarkerCorrect(parser, words[0]);
             CHECK_ERRORS;
             marker = words[0];
+            marker[strlen(marker) - 1] = '\0';
             // Shift command words (words[0] should fit command name):
             for (int i = 0; i < 3; i++)
                 words[i] = words[i + 1];
@@ -345,8 +373,8 @@ int parseFile(Parser *parser, const char *fileName) {
             }
             argument = words[1];
         } else if (words[1]) {
-                errorID = E_ARG_UNEXPECTED;
-                CHECK_ERRORS;
+            errorID = E_ARG_UNEXPECTED;
+            CHECK_ERRORS;
         }
         errorID = resolveArgument(parser, commandID, argument, &integerArgument);
         CHECK_ERRORS;
@@ -366,9 +394,15 @@ int parseFile(Parser *parser, const char *fileName) {
     // Replacing links (commandNumber->markerName) with (commandNumber->destinationCommandNumber:
     for (int i = 0; i < parser->commandsAmount; i++) {
         if (doesFuncTakeMarkerArg(parser->commands[i].command_id)) {
-            parser->commands->argument = parser->markerDestination[parser->commands->argument].commandNumber;
+            parser->commands[i].argument = parser->markerDestination[parser->commands[i].argument].commandNumber;
         }
     }
-
     fclose(program);
+    /*
+    if (parsingResult) {
+        for (int i = 0; i < parser->commandsAmount; i++) {
+            printf("Command: %d. Argument: %d\n", parser->commands[i].command_id, parser->commands[i].argument);
+        }
+    }
+     */
 }
