@@ -2,7 +2,7 @@
 #define ASM_COMMANDSTRUCTURE_H
 
 typedef struct {
-    int command_id;
+    int commandID;
     int argument;
 } Command;
 

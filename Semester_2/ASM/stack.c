@@ -53,22 +53,22 @@ void pushStack(Stack *stack, int element) {
             printf("ERROR: Cannot allocate memory for stack elements");
         }
     }
-    stack->amount++;
     stack->elements[stack->amount] = element;
+    stack->amount++;
 }
 
 int popStack(Stack *stack) {
     if (!stack) {
         printf("ERROR: Stack doesn't exist");
-        exit(1); // TODO invent error number
+        exit(1);
     }
 
     if (stack->amount < 0) {
-        printf("ERROR: Trying tot pop from empty stack");
-        exit(1); // TODO invent error number
+        printf("ERROR: Trying to pop from empty stack");
+        exit(1);
     }
 
-    int value = stack->elements[stack->amount];
+    int value = stack->elements[stack->amount - 1];
     stack->amount--;
 
     return value;

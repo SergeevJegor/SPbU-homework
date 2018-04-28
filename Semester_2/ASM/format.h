@@ -26,4 +26,6 @@
 
 #define MAX_STRING_LEN 255
 
+#define DATA_SIZE 1 << 18
+
 #endif

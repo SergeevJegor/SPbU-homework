@@ -1,7 +1,6 @@
 #include "parser.h"
-#include "commandStructure.h"
 
-#define INITIAL_SIZE 128
+#define INITIAL_SIZE 1
 #define SIZE_MULTIPLIER 2
 
 #define E_FORMAT 1
@@ -78,7 +77,7 @@ void addCommand(Parser *parser, const int commandID, const int argument, const c
         parser->markers = (MarkedCommand *) realloc(parser->markers, parser->markersSize * sizeof(MarkedCommand));
     }
     // Add command with argument:
-    parser->commands[parser->commandsAmount].command_id = commandID;
+    parser->commands[parser->commandsAmount].commandID = commandID;
     parser->commands[parser->commandsAmount].argument = argument;
     // Link command number with marker if needed:
     if (marker != "") {
@@ -298,7 +297,7 @@ int parseFile(Parser *parser, const char *fileName) {
     if (!fileName) {
         printf("ERROR: No file to parse");
     }
-    FILE *program = fopen("/home/jegor/Projects/C/ASM/input", "r");
+    FILE *program = fopen("/home/jegor/Projects/C/ASM/gcd", "r");
     if (!program) {
         printf("ERROR. Cannot open file");
         exit(2);
@@ -378,7 +377,7 @@ int parseFile(Parser *parser, const char *fileName) {
     }
     // Replacing links (commandNumber->markerName) with (commandNumber->destinationCommandNumber:
     for (int i = 0; i < parser->commandsAmount; i++) {
-        if (doesFuncTakeMarkerArg(parser->commands[i].command_id)) {
+        if (doesFuncTakeMarkerArg(parser->commands[i].commandID)) {
             parser->commands[i].argument = parser->markerDestination[parser->commands[i].argument].commandNumber;
         }
     }

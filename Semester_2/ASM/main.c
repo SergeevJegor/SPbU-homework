@@ -1,6 +1,5 @@
 #include <stdlib.h>
-#include "format.h"
-#include "parser.h"
+#include "interpreter.h"
 
 int main() {
 /*
@@ -21,7 +20,6 @@ int main() {
     char words[3][MAX_STRING_LEN];
     splitWords(line1, words);
     printf("\n%s\n%s\n%s", words[0], words[1], words[2]);*/
-    Parser *parser = createParser();
-    parseFile(parser, "input");
+    interpretCommands("gcd");
     return 0;
 }
