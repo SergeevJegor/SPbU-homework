@@ -2,24 +2,52 @@
 #include "interpreter.h"
 
 int main() {
-/*
-    char fileName[255];
-    printf("Enter file name: ");
-    scanf("%s", fileName);
+    char stringKey = (char) "";
+    int intKey = 0;
+    int exitLoop = FALSE;
+    while (!exitLoop) {
+        printf("Enter action number to execute:\n");
+        printf("1. Interpret program from file\n");
+        printf("2. Exit interpretation\n");
+        fscanf(stdin, "%c", &stringKey);
+        intKey = stringKey - '0';
+        if (intKey == 2)
+            return 0;
+        if (intKey == 1) {
+            exitLoop = TRUE;
+        } else
+            printf("You entered wrong action number. Please, try again\n");
+    }
+    char fileName[MAX_STRING_LEN];
+    exitLoop = FALSE;
+    while (!exitLoop) {
+        printf("Enter file name:\n");
+        fscanf(stdin, "%s", fileName);
+        // Check, if file can be opened:
+        FILE *program = fopen(fileName, "r");
+        if (!program) {
+            fclose(program);
+            printf("Can't find file with this name. Try again?\n");
+            printf("1. Yes\n");
+            printf("2. No. Abort\n");
+            fscanf(stdin, "%c", &stringKey);
+            intKey = stringKey - '0';
+            if (intKey == 1)
+                continue;
+            else if (intKey == 2)
+                return 0;
+            else {
+                printf("You entered wrong action number. Please, try again\n");
+                continue;
+            }
 
-
-
-    int EXIT = FALSE;
-    while (!EXIT) {
-
-    }*/
-    /*char *line = "    asdsa asd sad   asdad  asd: asd";
-    char line1[MAX_STRING_LEN];
-    formatCommandLine(line, line1);
-    printf("%s", line1);
-    char words[3][MAX_STRING_LEN];
-    splitWords(line1, words);
-    printf("\n%s\n%s\n%s", words[0], words[1], words[2]);*/
-    interpretCommands("gcd");
+        } else {
+            fclose(program);
+            exitLoop = TRUE;
+        }
+    }
+    printf("Starting interpreting...\n");
+    interpretCommands(fileName);
+    getc(stdin);
     return 0;
 }

@@ -297,7 +297,7 @@ int parseFile(Parser *parser, const char *fileName) {
     if (!fileName) {
         printf("ERROR: No file to parse");
     }
-    FILE *program = fopen("/home/jegor/Projects/C/ASM/gcd", "r");
+    FILE *program = fopen(fileName, "r");
     if (!program) {
         printf("ERROR. Cannot open file");
         exit(2);

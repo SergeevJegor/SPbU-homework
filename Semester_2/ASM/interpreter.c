@@ -79,7 +79,7 @@ void printStack(CommandsArray *interpreter) {
         printf("ERROR: Interpreter doesn't exist");
         return;
     }
-    printf("Stack status:\n");
+    printf("Final stack status:\n");
     for (int i = interpreter->stack->amount - 1; i >= 0; i--)
         printf("   %d\n", interpreter->stack->elements[i]);
 }
