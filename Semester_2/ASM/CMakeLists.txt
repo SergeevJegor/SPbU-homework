@@ -3,4 +3,4 @@ project(ASM C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(ASM parser.c parser.h main.c format.h commandStructure.h stack.c stack.h)
+add_executable(ASM parser.c parser.h main.c format.h commandStructure.h stack.c stack.h interpreter.c interpreter.h)
