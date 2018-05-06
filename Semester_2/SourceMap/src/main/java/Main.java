@@ -30,8 +30,8 @@ public class Main {
             }
 
             System.out.println("Symbol number " + currentOutputCharIndex + " maps to symbol at line " +
-                    currentInputLineIndex + " column " + currentInputCharIndex + " at file " +
-                    sources[currentFileIndex] + ", connected with variable " + names[currentVariableNameIndex]);
+                    currentInputLineIndex + " column " + currentInputCharIndex + " at file \"" +
+                    sources[currentFileIndex] + "\", linked with variable \"" + names[currentVariableNameIndex] + "\"");
         }
     }
 }
