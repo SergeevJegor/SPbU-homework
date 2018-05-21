@@ -3,8 +3,8 @@ package com.company;
 import java.util.Random;
 
 public class RandomBot extends Player {
-    public RandomBot(Integer money) {
-        super(money);
+    public RandomBot(String name, Integer money) {
+        super(name, money);
     }
 
     public void Play() {

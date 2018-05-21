@@ -7,7 +7,7 @@ public class Human extends Player {
     private Scanner keyboard;
 
     public Human(Integer money) {
-        super(money);
+        super("(You)", money);
 
     }
 

@@ -6,13 +6,15 @@ public abstract class Player implements Subject {
 
     ArrayList<Card> hand;
 
+    protected String playerName;
     protected Integer gamesPlayed;
     protected Integer currentMoney;
     protected Integer currentBet;
 
     protected Observer gameTable;
 
-    public Player(Integer money) {
+    public Player(String playerName, Integer money) {
+        this.playerName = playerName;
         this.gamesPlayed = 0;
         this.currentMoney = money;
         this.currentBet = 0;
@@ -61,8 +63,8 @@ public abstract class Player implements Subject {
         currentBet *= 2;
     }
 
-    public String getStatistic(String playerName) {
-        return (playerName + " played " + gamesPlayed + " games and his account is now " + currentMoney);
+    public String getStatistic() {
+        return (this.playerName + " played " + gamesPlayed + " games and his account is now " + currentMoney);
     }
 
     @Override

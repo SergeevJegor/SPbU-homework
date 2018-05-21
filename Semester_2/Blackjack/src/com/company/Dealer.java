@@ -3,7 +3,7 @@ package com.company;
 public class Dealer extends Player {
 
     public Dealer() {
-        super(Integer.MAX_VALUE);
+        super("Dealer", Integer.MAX_VALUE);
     }
 
     public void Play() {

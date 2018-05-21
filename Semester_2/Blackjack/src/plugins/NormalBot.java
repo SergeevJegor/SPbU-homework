@@ -7,8 +7,8 @@ import com.company.Player;
 
 public class NormalBot extends Player {
 
-    public NormalBot(Integer money) {
-        super(money);
+    public NormalBot(String name, Integer money) {
+        super(name, money);
     }
 
     public void Play() {

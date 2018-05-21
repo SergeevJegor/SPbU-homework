@@ -1,5 +1,6 @@
 package com.company;
 
+import org.picocontainer.PicoContainer;
 import java.util.ArrayList;
 
 public class Blackjack implements Observer {
@@ -24,6 +25,13 @@ public class Blackjack implements Observer {
 
         this.deck = deckArg;
         this.dealerInPlay = false;
+    }
+
+    public void addAllPlayers(PicoContainer pico) throws Exception {
+        // Adding all players from container to blackjack table:
+        for (Player player : pico.getComponent(PlayerProvider.class).getPlayers()) {
+            addPlayer(player);
+        }
     }
 
     private void giveStartingHand() {
@@ -123,6 +131,12 @@ public class Blackjack implements Observer {
     private void playerSurrender(Player player) {
         player.loseMoney(player.getCurrentBet() / 2);
         player.clearHand();
+    }
+
+    public void printStats() {
+        for (Player player : this.players) {
+            System.out.println(player.getStatistic());
+        }
     }
 
     @Override
