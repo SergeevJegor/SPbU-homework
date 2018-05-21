@@ -16,7 +16,7 @@ public class Main {
         Blackjack blackjack = pico.getComponent(Blackjack.class);
         blackjack.addAllPlayers(pico);
 
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 5; i++) {
             blackjack.NewRound();
         }
 

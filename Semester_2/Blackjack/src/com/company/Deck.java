@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Deck {
-    
+
     private final Integer decksNumber = 8;
     private final Integer deckSize = 52;
 
@@ -42,5 +42,5 @@ public class Deck {
 
         return result;
     }
-    
+
 }

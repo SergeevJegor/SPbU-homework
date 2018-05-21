@@ -1,6 +1,7 @@
 package com.company;
 
 import org.picocontainer.PicoContainer;
+
 import java.util.ArrayList;
 
 public class Blackjack implements Observer {
@@ -12,6 +13,7 @@ public class Blackjack implements Observer {
 
     private ArrayList<Player> playersFinished;
     private ArrayList<Player> playersSurrendered;
+    private ArrayList<Player> playersLost;
 
     private boolean dealerInPlay;
 
@@ -22,6 +24,7 @@ public class Blackjack implements Observer {
         this.players = new ArrayList<>();
         this.playersSurrendered = new ArrayList<>();
         this.playersFinished = new ArrayList<>();
+        this.playersLost = new ArrayList<>();
 
         this.deck = deckArg;
         this.dealerInPlay = false;
@@ -89,8 +92,14 @@ public class Blackjack implements Observer {
 
         dealer.clearHand();
 
-        for (int i = 0; i < players.size(); i++)
-            if (players.get(i).getMoney() <= 0) players.remove(players.get(i));
+        for (int i = 0; i < players.size(); i++) {
+            Player currentPlayer = players.get(i);
+            if (currentPlayer.getMoney() <= 0) {
+                playersLost.add(currentPlayer);
+                players.remove(currentPlayer);
+                currentPlayer.GameOver();
+            }
+        }
     }
 
     private boolean checkIfBlackJack(Player player) {
@@ -120,7 +129,6 @@ public class Blackjack implements Observer {
 
         } else if (playerScore <= 21 && playerScore > dealerScore) {
             player.winMoney(player.getCurrentBet());
-
         } else if (!playerScore.equals(dealerScore)) {
             player.loseMoney(player.getCurrentBet());
         }
@@ -134,9 +142,8 @@ public class Blackjack implements Observer {
     }
 
     public void printStats() {
-        for (Player player : this.players) {
-            System.out.println(player.getStatistic());
-        }
+        this.players.forEach(player -> System.out.println(player.getStatistic()));
+        this.playersLost.forEach(player -> System.out.println(player.getStatistic()));
     }
 
     @Override

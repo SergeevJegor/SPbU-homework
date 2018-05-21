@@ -30,9 +30,10 @@ public class PlayerProvider {
     public void mapClassesToNames() throws Exception {
         // Registering built-in bots:
         registerPlayer("Random bot", RandomBot.class);
+        registerPlayer("(You)", Human.class);
 
         // Registering plugin bots:
-        BufferedReader bufferedReader = new BufferedReader( new FileReader("/home/jegor/Projects/Java/Blackjack_1/src/plugins/pluginsConfig"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("/home/jegor/Projects/Java/Blackjack_1/src/plugins/pluginsConfig"));
         String line;
 
         while ((line = bufferedReader.readLine()) != null) {
@@ -46,7 +47,7 @@ public class PlayerProvider {
     public ArrayList<Player> getPlayers() throws Exception {
         ArrayList<Player> playersInstances = new ArrayList<>();
 
-        for (Map.Entry<String, Class<?> > entry : this.playersNames.entrySet()) {
+        for (Map.Entry<String, Class<?>> entry : this.playersNames.entrySet()) {
             Constructor<?> constructor = entry.getValue().getDeclaredConstructor(String.class, Integer.class);
             Player player = (Player) constructor.newInstance(entry.getKey(), 1000);
             playersInstances.add(player);

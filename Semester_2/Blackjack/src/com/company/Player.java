@@ -81,4 +81,9 @@ public abstract class Player implements Subject {
 
     abstract public void Play();
 
+    public void GameOver() {
+    }
+
+    public void Draw() {
+    }
 }
