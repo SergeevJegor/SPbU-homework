@@ -4,11 +4,8 @@ public class Main {
         SportCar HennesseyVenom = new SportCar(427, 1244, 1451, "Hennesey Venom GT", 2010, "USA", 1200000, 2.7);
         Bus Mercedes = new Bus(140, 9600, 422, "Mercedes-Benz Tourismo", 1995, "Germany", 156000, 52);
 
-        System.out.println(CadillacXTS.getBasicInfo());
         System.out.println(CadillacXTS.getDetailedInfo());
-        System.out.println(HennesseyVenom.getBasicInfo());
         System.out.println(HennesseyVenom.getDetailedInfo());
-        System.out.println(Mercedes.getBasicInfo());
         System.out.println(Mercedes.getDetailedInfo());
     }
 }

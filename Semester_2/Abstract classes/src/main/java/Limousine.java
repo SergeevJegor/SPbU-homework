@@ -6,8 +6,7 @@ public class Limousine extends Auto {
         this.length = length;
     }
 
-    @Override
     public String getDetailedInfo() {
-        return ("Length: " + length + "\n");
+        return this.getBasicInfo() + "Length: " + length + "\n";
     }
 }

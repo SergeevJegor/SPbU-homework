@@ -6,8 +6,7 @@ public class Bus extends Auto {
         this.capacity = capacity;
     }
 
-    @Override
     public String getDetailedInfo() {
-        return ("Capacity: " + capacity + "\n");
+        return this.getBasicInfo() + "Capacity: " + capacity + "\n";
     }
 }

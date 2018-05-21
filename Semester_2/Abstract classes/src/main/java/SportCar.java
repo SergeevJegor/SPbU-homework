@@ -6,8 +6,7 @@ public class SportCar extends Auto {
         this.accelerationTo100 = accelerationTo100;
     }
 
-    @Override
     public String getDetailedInfo() {
-        return ("Accelerates to 100km/h (sec): " + accelerationTo100 + "\n");
+        return this.getBasicInfo() + "Accelerates to 100km/h (sec): " + accelerationTo100 + "\n";
     }
 }

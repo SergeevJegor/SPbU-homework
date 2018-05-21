@@ -24,10 +24,6 @@ public class Auto {
                 "Price: " + price + "\n" +
                 "Maximum speed: " + maxSpeed + "\n" +
                 "Weight: " + weight + "\n" +
-                "Horsepower: " + horsepower);
-    }
-
-    public String getDetailedInfo() {
-        return "There is no detailed information about abstract car";
+                "Horsepower: " + horsepower + "\n");
     }
 }
