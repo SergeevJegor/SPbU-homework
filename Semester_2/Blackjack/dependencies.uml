@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="129.16118285123986" y="1436.0">com.company.Blackjack</node>
+    <node x="283.51597365702446" y="205.0">com.company.GameEvent</node>
+    <node x="267.51597365702446" y="0.0">com.company.EventType</node>
+    <node x="366.48618285123985" y="1677.0">com.company.Main</node>
+    <node x="297.3892777203855" y="510.5">com.company.Observer</node>
+    <node x="629.7271565082643" y="1280.0">com.company.PlayerProvider</node>
+    <node x="483.7951403236912" y="361.0">com.company.CardRanks</node>
+    <node x="356.3892777203855" y="784.5">com.company.Subject</node>
+    <node x="337.06048984159764" y="909.0">com.company.Player</node>
+    <node x="524.9604898415976" y="750.0">com.company.Card</node>
+    <node x="611.7951403236912" y="464.5">com.company.CardSuits</node>
+    <node x="812.143823174931" y="1177.0">com.company.Human</node>
+    <node x="39.32499999999999" y="1188.5">com.company.Dealer</node>
+    <node x="145.325" y="1188.5">plugins.NormalBot</node>
+    <node x="679.143823174931" y="1188.5">com.company.RandomBot</node>
+    <node x="564.6267777203856" y="932.0">com.company.Deck</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.company.RandomBot" target="com.company.Player">
+      <point x="-42.375" y="-15.0" />
+      <point x="693.268823174931" y="1137.0" />
+      <point x="467.9695807506885" y="1137.0" />
+      <point x="34.90909090909088" y="84.0" />
+    </edge>
+    <edge source="com.company.Main" target="com.company.Dealer">
+      <point x="-28.5" y="-15.0" />
+      <point x="375.98618285123985" y="1657.0" />
+      <point x="0.0" y="1657.0" />
+      <point x="0.0" y="1255.0" />
+      <point x="53.6583333333333" y="1255.0" />
+      <point x="-28.666666666666686" y="15.0" />
+    </edge>
+    <edge source="com.company.Player" target="com.company.CardRanks">
+      <point x="42.666666666666686" y="-84.0" />
+      <point x="475.72715650826433" y="889.0" />
+      <point x="484.3892777203855" y="889.0" />
+      <point x="484.3892777203855" y="730.0" />
+      <point x="497.2951403236912" y="730.0" />
+      <point x="-40.5" y="164.5" />
+    </edge>
+    <edge source="com.company.PlayerProvider" target="com.company.RandomBot">
+      <point x="0.0" y="-38.0" />
+      <point x="769.7271565082643" y="1255.0" />
+      <point x="735.643823174931" y="1255.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="com.company.Player" target="com.company.Subject">
+      <point x="-21.333333333333314" y="-84.0" />
+      <point x="411.72715650826433" y="889.0" />
+      <point x="400.8892777203855" y="889.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="com.company.GameEvent" target="com.company.EventType">
+      <point x="47.0" y="-38.0" />
+      <point x="424.51597365702446" y="185.0" />
+      <point x="348.51597365702446" y="185.0" />
+      <point x="18.0" y="72.5" />
+    </edge>
+    <edge source="com.company.Player" target="com.company.Card">
+      <point x="85.33333333333331" y="-84.0" />
+      <point x="518.393823174931" y="889.0" />
+      <point x="572.0604898415977" y="889.0" />
+      <point x="-31.399999999999977" y="49.5" />
+    </edge>
+    <edge source="com.company.GameEvent" target="com.company.Player">
+      <point x="47.00000000000006" y="38.0" />
+      <point x="424.51597365702446" y="321.0" />
+      <point x="466.8892777203855" y="321.0" />
+      <point x="466.8892777203855" y="889.0" />
+      <point x="454.393823174931" y="889.0" />
+      <point x="21.33333333333337" y="-84.0" />
+    </edge>
+    <edge source="com.company.Blackjack" target="com.company.Player">
+      <point x="14.149999999999977" y="-95.5" />
+      <point x="284.81118285123983" y="1376.0" />
+      <point x="342.72430699035783" y="1376.0" />
+      <point x="342.72430699035783" y="1147.0" />
+      <point x="415.60594438705215" y="1147.0" />
+      <point x="-17.454545454545496" y="84.0" />
+    </edge>
+    <edge source="com.company.Blackjack" target="com.company.PlayerProvider">
+      <point x="127.35000000000002" y="-95.5" />
+      <point x="398.0111828512399" y="1416.0" />
+      <point x="699.7271565082643" y="1416.0" />
+      <point x="-70.0" y="38.0" />
+    </edge>
+    <edge source="com.company.Deck" target="com.company.CardSuits">
+      <point x="77.60000000000002" y="-61.0" />
+      <point x="739.2267777203856" y="879.0" />
+      <point x="703.4604898415976" y="879.0" />
+      <point x="703.4604898415976" y="710.0" />
+      <point x="696.7951403236912" y="710.0" />
+      <point x="34.0" y="61.0" />
+    </edge>
+    <edge source="com.company.Deck" target="com.company.Card">
+      <point x="0.0" y="-61.0" />
+      <point x="661.6267777203856" y="889.0" />
+      <point x="666.2604898415977" y="889.0" />
+      <point x="62.80000000000007" y="49.5" />
+    </edge>
+    <edge source="com.company.Card" target="com.company.CardRanks">
+      <point x="-58.875" y="-49.5" />
+      <point x="544.5854898415976" y="730.0" />
+      <point x="524.2951403236912" y="730.0" />
+      <point x="-13.5" y="164.5" />
+    </edge>
+    <edge source="com.company.Blackjack" target="com.company.Deck">
+      <point x="99.05000000000001" y="-95.5" />
+      <point x="369.71118285123987" y="1406.0" />
+      <point x="619.2271565082643" y="1406.0" />
+      <point x="619.2271565082643" y="1157.0" />
+      <point x="661.6267777203856" y="1157.0" />
+      <point x="0.0" y="61.0" />
+    </edge>
+    <edge source="com.company.Human" target="com.company.EventType">
+      <point x="63.74999999999994" y="-26.5" />
+      <point x="960.893823174931" y="1157.0" />
+      <point x="953.6414858815428" y="1157.0" />
+      <point x="953.6414858815428" y="165.0" />
+      <point x="384.51597365702446" y="165.0" />
+      <point x="54.0" y="72.5" />
+    </edge>
+    <edge source="plugins.NormalBot" target="com.company.EventType">
+      <point x="-40.875" y="-15.0" />
+      <point x="158.30764032369112" y="185.0" />
+      <point x="312.51597365702446" y="185.0" />
+      <point x="-18.0" y="72.5" />
+    </edge>
+    <edge source="com.company.Main" target="com.company.Deck">
+      <point x="28.5" y="-15.0" />
+      <point x="432.98618285123985" y="1657.0" />
+      <point x="992.643823174931" y="1657.0" />
+      <point x="992.643823174931" y="1097.0" />
+      <point x="726.2934443870522" y="1097.0" />
+      <point x="64.66666666666663" y="61.0" />
+    </edge>
+    <edge source="plugins.NormalBot" target="com.company.GameEvent">
+      <point x="-13.625" y="-15.0" />
+      <point x="186.2" y="1097.0" />
+      <point x="178.075" y="1097.0" />
+      <point x="178.075" y="321.0" />
+      <point x="330.51597365702446" y="321.0" />
+      <point x="-47.0" y="38.0" />
+    </edge>
+    <edge source="com.company.Human" target="com.company.GameEvent">
+      <point x="21.25" y="-26.5" />
+      <point x="918.393823174931" y="1157.0" />
+      <point x="942.6414858815428" y="1157.0" />
+      <point x="942.6414858815428" y="301.0" />
+      <point x="462.1159736570245" y="301.0" />
+      <point x="84.60000000000008" y="38.0" />
+    </edge>
+    <edge source="com.company.Blackjack" target="com.company.EventType">
+      <point x="-127.35000000000008" y="-95.5" />
+      <point x="143.31118285123978" y="1416.0" />
+      <point x="17.82499999999999" y="1416.0" />
+      <point x="17.82499999999999" y="165.0" />
+      <point x="276.51597365702446" y="165.0" />
+      <point x="-54.0" y="72.5" />
+    </edge>
+    <edge source="com.company.PlayerProvider" target="com.company.Player">
+      <point x="-93.33333333333326" y="-38.0" />
+      <point x="676.3938231749311" y="1255.0" />
+      <point x="632.393823174931" y="1255.0" />
+      <point x="632.393823174931" y="1147.0" />
+      <point x="450.5150352961431" y="1147.0" />
+      <point x="17.45454545454544" y="84.0" />
+    </edge>
+    <edge source="com.company.Blackjack" target="com.company.Dealer">
+      <point x="-42.450000000000045" y="-95.5" />
+      <point x="228.2111828512398" y="1386.0" />
+      <point x="102.49451618457317" y="1386.0" />
+      <point x="102.49451618457317" y="1255.0" />
+      <point x="110.99166666666667" y="1255.0" />
+      <point x="28.666666666666686" y="15.0" />
+    </edge>
+    <edge source="com.company.Human" target="com.company.Player">
+      <point x="-63.75" y="-26.5" />
+      <point x="833.393823174931" y="1117.0" />
+      <point x="502.8786716597794" y="1117.0" />
+      <point x="69.81818181818176" y="84.0" />
+    </edge>
+    <edge source="com.company.Dealer" target="com.company.GameEvent">
+      <point x="-10.75" y="-15.0" />
+      <point x="71.57499999999999" y="1157.0" />
+      <point x="66.32499999999999" y="1157.0" />
+      <point x="66.32499999999999" y="311.0" />
+      <point x="311.7159736570244" y="311.0" />
+      <point x="-65.80000000000001" y="38.0" />
+    </edge>
+    <edge source="com.company.PlayerProvider" target="com.company.Human">
+      <point x="93.33333333333337" y="-38.0" />
+      <point x="863.0604898415977" y="1255.0" />
+      <point x="897.143823174931" y="1255.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="com.company.Dealer" target="com.company.EventType">
+      <point x="-32.25" y="-15.0" />
+      <point x="50.5361828512398" y="175.0" />
+      <point x="294.51597365702446" y="175.0" />
+      <point x="-36.0" y="72.5" />
+    </edge>
+    <edge source="com.company.Main" target="com.company.PlayerProvider">
+      <point x="9.5" y="-15.0" />
+      <point x="413.98618285123985" y="1647.0" />
+      <point x="839.7271565082643" y="1647.0" />
+      <point x="70.0" y="38.0" />
+    </edge>
+    <edge source="com.company.RandomBot" target="com.company.EventType">
+      <point x="42.375" y="-15.0" />
+      <point x="778.018823174931" y="1157.0" />
+      <point x="797.2517777203857" y="1157.0" />
+      <point x="797.2517777203857" y="175.0" />
+      <point x="366.51597365702446" y="175.0" />
+      <point x="36.0" y="72.5" />
+    </edge>
+    <edge source="com.company.Main" target="com.company.Blackjack">
+      <point x="-9.5" y="-15.0" />
+      <point x="394.98618285123985" y="1647.0" />
+      <point x="270.66118285123986" y="1647.0" />
+      <point x="0.0" y="95.5" />
+    </edge>
+    <edge source="com.company.Observer" target="com.company.GameEvent">
+      <point x="0.0" y="-15.0" />
+      <point x="347.3892777203855" y="341.0" />
+      <point x="368.1159736570245" y="341.0" />
+      <point x="-9.399999999999977" y="38.0" />
+    </edge>
+    <edge source="com.company.Player" target="com.company.Observer">
+      <point x="-42.66666666666663" y="-84.0" />
+      <point x="390.393823174931" y="869.0" />
+      <point x="345.8892777203855" y="869.0" />
+      <point x="345.8892777203855" y="730.0" />
+      <point x="359.8892777203855" y="730.0" />
+      <point x="12.5" y="15.0" />
+    </edge>
+    <edge source="com.company.Subject" target="com.company.GameEvent">
+      <point x="22.25" y="-15.0" />
+      <point x="423.1392777203855" y="341.0" />
+      <point x="386.91597365702444" y="341.0" />
+      <point x="9.400000000000034" y="38.0" />
+    </edge>
+    <edge source="com.company.Blackjack" target="com.company.Observer">
+      <point x="-14.150000000000034" y="-95.5" />
+      <point x="256.5111828512398" y="1416.0" />
+      <point x="264.825" y="1416.0" />
+      <point x="264.825" y="730.0" />
+      <point x="309.8892777203855" y="730.0" />
+      <point x="-37.5" y="15.0" />
+    </edge>
+    <edge source="com.company.Dealer" target="com.company.Player">
+      <point x="10.75" y="-15.0" />
+      <point x="93.07499999999999" y="1107.0" />
+      <point x="345.7877625688704" y="1107.0" />
+      <point x="-87.27272727272725" y="84.0" />
+    </edge>
+    <edge source="com.company.Blackjack" target="com.company.GameEvent">
+      <point x="-99.05000000000007" y="-95.5" />
+      <point x="171.6111828512398" y="1406.0" />
+      <point x="28.82499999999999" y="1406.0" />
+      <point x="28.82499999999999" y="301.0" />
+      <point x="292.91597365702444" y="301.0" />
+      <point x="-84.60000000000002" y="38.0" />
+    </edge>
+    <edge source="com.company.RandomBot" target="com.company.GameEvent">
+      <point x="14.125" y="-15.0" />
+      <point x="749.768823174931" y="1147.0" />
+      <point x="786.2517777203857" y="1147.0" />
+      <point x="786.2517777203857" y="311.0" />
+      <point x="443.31597365702453" y="311.0" />
+      <point x="65.80000000000007" y="38.0" />
+    </edge>
+    <edge source="plugins.NormalBot" target="com.company.Player">
+      <point x="13.625" y="-15.0" />
+      <point x="213.45" y="1127.0" />
+      <point x="380.69685347796127" y="1127.0" />
+      <point x="-52.363636363636374" y="84.0" />
+    </edge>
+    <edge source="com.company.Card" target="com.company.CardSuits">
+      <point x="58.875" y="-49.5" />
+      <point x="0.0" y="61.0" />
+    </edge>
+    <edge source="com.company.Deck" target="com.company.CardRanks">
+      <point x="38.799999999999955" y="-61.0" />
+      <point x="700.4267777203855" y="889.0" />
+      <point x="692.4604898415976" y="889.0" />
+      <point x="692.4604898415976" y="720.0" />
+      <point x="578.2951403236912" y="720.0" />
+      <point x="40.49999999999994" y="164.5" />
+    </edge>
+    <edge source="com.company.Player" target="com.company.GameEvent">
+      <point x="-85.33333333333326" y="-84.0" />
+      <point x="347.7271565082644" y="889.0" />
+      <point x="286.8892777203855" y="889.0" />
+      <point x="286.8892777203855" y="331.0" />
+      <point x="349.3159736570244" y="331.0" />
+      <point x="-28.19999999999999" y="38.0" />
+    </edge>
+    <edge source="com.company.Subject" target="com.company.Observer">
+      <point x="-22.25" y="-15.0" />
+      <point x="378.6392777203855" y="730.0" />
+      <point x="384.8892777203855" y="730.0" />
+      <point x="37.5" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.3364215402431963" x="496.5" y="853.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
