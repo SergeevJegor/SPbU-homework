@@ -1,0 +1,63 @@
+;Input natural numbers:
+    ldc 440
+    ldc 90
+
+;Store biggest to {1}, another to {2} memory cell:
+; If first (on stack) < second (on stack), switch them:
+    cmp
+    ldc 1
+    add
+    st 0
+    st 3
+    st 3
+    ld 0
+    br skip_start_switch
+
+    st 0
+    st 1
+    st 2
+    ld 1
+    ld 2
+    ld 0
+
+skip_start_switch: st 0
+    st 1
+    st 2
+;Now we store biggest number at {1}, another at {2} memory cell
+
+;The logic is:
+; 1) if {1} == {2}: clear stack, load one of them (let it be {2}), end program
+; 2) if {1} < {2}: switch {1} and {2}
+; 3) Store {1} - {2} to {1}
+; *at the end of loop step stack should be clear
+; *Let {3} be trash holder
+;      {0} be compare result holder
+
+loop: ld 2
+    ld 1
+    cmp
+    br skip_return
+;If {1} == {2}:
+    st 3
+    st 3
+    ret
+skip_return: ldc 1
+    add
+    st 0
+    st 3
+    st 3
+    ld 0
+    br skip_switch
+;If {1} < {2}:
+    st 0
+    st 2
+    st 1
+    ld 2
+    ld 1
+    ld 0
+skip_switch: st 0
+    sub
+    st 1
+    st 3
+    st 3
+    jmp loop
