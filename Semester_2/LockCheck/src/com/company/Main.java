@@ -1,9 +1,11 @@
 package com.company;
 
+import java.util.concurrent.TimeUnit;
+
 public class Main {
 
-    private static final int NUMBER_OF_THREADS = 1000;
-    private static final int NUMBER_OF_INCREMENT = 100000;
+    private static final int NUMBER_OF_THREADS = 100;
+    private static final int NUMBER_OF_INCREMENT = 10000000;
 
 
     public static void main(String[] args) throws Exception {
@@ -15,7 +17,9 @@ public class Main {
             thread = new Thread(incremenator);
             thread.start();
         }
+
+        TimeUnit.SECONDS.sleep(40);
         System.out.println("Counter should be at " + NUMBER_OF_THREADS * NUMBER_OF_INCREMENT);
-        System.out.println("Current value: " + incremenator.getCounter());
+        System.out.println("Current counter value: " + incremenator.getCounter());
     }
 }

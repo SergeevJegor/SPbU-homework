@@ -1,12 +1,17 @@
 package com.company;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Incrementor implements Runnable {
 
     private final int incAmount;
     private int counter;
+    private Lock lock = new ReentrantLock();
 
-    public Incrementor(int incrementationAmount) {
-        incAmount = incrementationAmount;
+    public Incrementor(int incrementAmount) {
+        incAmount = incrementAmount;
     }
 
     public int getCounter() {
@@ -16,7 +21,14 @@ public class Incrementor implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < incAmount; i++) {
-            counter++;
+            try {
+                if (lock.tryLock(100, TimeUnit.MILLISECONDS))
+                    counter++;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
         }
     }
 }
