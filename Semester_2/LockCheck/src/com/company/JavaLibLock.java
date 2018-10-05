@@ -4,13 +4,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Incrementor implements Runnable {
+public class JavaLibLock implements Runnable {
 
     private final int incAmount;
     private int counter;
     private Lock lock = new ReentrantLock();
 
-    public Incrementor(int incrementAmount) {
+    public JavaLibLock(int incrementAmount) {
         incAmount = incrementAmount;
     }
 
