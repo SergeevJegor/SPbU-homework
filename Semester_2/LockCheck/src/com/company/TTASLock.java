@@ -8,7 +8,7 @@ public class TTASLock implements MyLock {
 
 
     @Override
-    public void lock(int threadID) {
+    public void lock() {
         while (true) {
             while (state.get()) {
                 // Waiting...
@@ -20,7 +20,7 @@ public class TTASLock implements MyLock {
     }
 
     @Override
-    public void unlock(int threadID) {
+    public void unlock() {
         state.set(false);
     }
 }

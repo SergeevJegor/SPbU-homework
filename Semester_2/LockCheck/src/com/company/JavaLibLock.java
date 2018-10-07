@@ -9,12 +9,12 @@ public class JavaLibLock implements MyLock {
 
 
     @Override
-    public void lock(int threadID) {
+    public void lock() {
         javaLock.lock();
     }
 
     @Override
-    public void unlock(int threadID) {
+    public void unlock() {
         javaLock.unlock();
     }
 }

@@ -8,14 +8,14 @@ public class TASLock implements MyLock {
 
 
     @Override
-    public void lock(int threadID) {
+    public void lock() {
         while (state.getAndSet(true)) {
             // Waiting...
         }
     }
 
     @Override
-    public void unlock(int threadID) {
+    public void unlock() {
         state.set(false);
     }
 }

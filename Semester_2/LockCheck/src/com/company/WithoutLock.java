@@ -3,12 +3,12 @@ package com.company;
 public class WithoutLock implements MyLock {
 
     @Override
-    public void lock(int threadID) {
+    public void lock() {
         // Do nothing
     }
 
     @Override
-    public void unlock(int threadID) {
+    public void unlock() {
         // Do nothing
     }
 }

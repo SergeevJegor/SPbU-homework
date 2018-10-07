@@ -19,9 +19,9 @@ public class Counter implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < incAmount; i++) {
-            lock.lock((int) Thread.currentThread().getId());
+            lock.lock();
             counter++;
-            lock.unlock((int) Thread.currentThread().getId());
+            lock.unlock();
         }
     }
 }

@@ -2,7 +2,7 @@ package com.company;
 
 public interface MyLock {
 
-    void lock(int threadID);
+    void lock();
 
-    void unlock(int threadID);
+    void unlock();
 }
