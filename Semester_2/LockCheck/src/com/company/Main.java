@@ -1,11 +1,10 @@
 package com.company;
 
-import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    private static final int NUMBER_OF_THREADS = 2;
-    private static final int NUMBER_OF_INCREMENT = 10000000;
+    public static final int NUMBER_OF_THREADS = 2;
+    public static final int NUMBER_OF_INCREMENT = 10000000;
 
 
     public static void main(String[] args) throws Exception {
