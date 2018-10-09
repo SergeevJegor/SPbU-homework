@@ -20,19 +20,26 @@ public class Main {
 
         for (int i = 0; i < NUMBER_OF_THREADS; i++) {
             withoutLockThread[i] = new Thread(withoutLockCounter);
+            withoutLockThread[i].join();
             withoutLockThread[i].start();
             javaLibLockThread[i] = new Thread(javaLibLockCounter);
+            javaLibLockThread[i].join();
             javaLibLockThread[i].start();
             petersonLockThread[i] = new Thread(petersonLockCounter);
+            petersonLockThread[i].join();
             petersonLockThread[i].start();
         }
 
-        TimeUnit.SECONDS.sleep(10);
+        boolean flag = true;
+        while (flag) {
+            for (int i = 0; i < NUMBER_OF_THREADS; i++) {
+                flag = withoutLockThread[i].isAlive() | javaLibLockThread[i].isAlive()/* & petersonLockThread[i].isAlive()*/;
+            }
+        }
+
         System.out.printf("Counter should be at %42d\n", NUMBER_OF_THREADS * NUMBER_OF_INCREMENT);
         System.out.printf("Counter value without lock: %35d\n", withoutLockCounter.getCounter());
         System.out.printf("Counter value with standard java lib lock: %20d\n", javaLibLockCounter.getCounter());
         System.out.printf("Counter value with implemented Peterson's lock: %15d\n", petersonLockCounter.getCounter());
-
-
     }
 }
