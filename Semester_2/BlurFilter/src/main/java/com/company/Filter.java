@@ -2,7 +2,6 @@ package com.company;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import static com.company.Main.HORIZONTAL_FLAG;
 
 
 public class Filter implements Runnable{
@@ -11,22 +10,22 @@ public class Filter implements Runnable{
     private BufferedImage image;
     private int width;
     private int height;
-    private boolean direction;
+    private ProcessingType direction;
     private int radius;
     private int threads;
 
 
-    public Filter(BufferedImage img, BufferedImage newImg, boolean horizontalDirection, int radiusSize, int numberOfThreads){
+    public Filter(BufferedImage img, BufferedImage newImg, ProcessingType processingType, int radiusSize, int numberOfThreads){
         newImage = newImg;
         image = img;
         width = image.getWidth();
         height = image.getHeight();
-        direction = horizontalDirection;
+        direction = processingType;
         radius = radiusSize;
         threads = numberOfThreads;
     }
 
-    private void horizontalBlurFilter(int radius) {
+    private void horizontalBlurFilter() {
         int linesToProcess = height / threads;
         for (int i = 0; i < linesToProcess; i++) {
             int row = i * threads + (int)Thread.currentThread().getId() % threads;
@@ -55,7 +54,7 @@ public class Filter implements Runnable{
         }
     }
 
-    private void verticalBlurFilter(int radius) {
+    private void verticalBlurFilter() {
         int linesToProcess = width / threads;
         for (int row = 0; row < height; row++) {
             for (int i  = 0; i < linesToProcess; i++) {
@@ -86,10 +85,10 @@ public class Filter implements Runnable{
 
     @Override
     public void run() {
-        if (direction == HORIZONTAL_FLAG) {
-            horizontalBlurFilter(radius);
-        } else {
-            verticalBlurFilter(radius);
+        if (direction == ProcessingType.HORIZONTAL) {
+            horizontalBlurFilter();
+        } else if (direction == ProcessingType.VERTICAL){
+            verticalBlurFilter();
         }
     }
 }
