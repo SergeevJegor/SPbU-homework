@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 
-public class Filter implements Runnable{
+public class Filter implements Runnable {
 
     private BufferedImage newImage;
     private BufferedImage image;
@@ -15,7 +15,7 @@ public class Filter implements Runnable{
     private int threads;
 
 
-    public Filter(BufferedImage img, BufferedImage newImg, ProcessingType processingType, int radiusSize, int numberOfThreads){
+    public Filter(BufferedImage img, BufferedImage newImg, ProcessingType processingType, int radiusSize, int numberOfThreads) {
         newImage = newImg;
         image = img;
         width = image.getWidth();
@@ -28,7 +28,7 @@ public class Filter implements Runnable{
     private void horizontalBlurFilter() {
         int linesToProcess = height / threads;
         for (int i = 0; i < linesToProcess; i++) {
-            int row = i * threads + (int)Thread.currentThread().getId() % threads;
+            int row = i * threads + (int) Thread.currentThread().getId() % threads;
             for (int column = 0; column < width; column++) {
                 int redChannel = 0;
                 int greenChannel = 0;
@@ -57,8 +57,8 @@ public class Filter implements Runnable{
     private void verticalBlurFilter() {
         int linesToProcess = width / threads;
         for (int row = 0; row < height; row++) {
-            for (int i  = 0; i < linesToProcess; i++) {
-                int column = i * threads + (int)Thread.currentThread().getId() % threads;
+            for (int i = 0; i < linesToProcess; i++) {
+                int column = i * threads + (int) Thread.currentThread().getId() % threads;
                 int redChannel = 0;
                 int greenChannel = 0;
                 int blueChannel = 0;
@@ -87,7 +87,7 @@ public class Filter implements Runnable{
     public void run() {
         if (direction == ProcessingType.HORIZONTAL) {
             horizontalBlurFilter();
-        } else if (direction == ProcessingType.VERTICAL){
+        } else if (direction == ProcessingType.VERTICAL) {
             verticalBlurFilter();
         }
     }
