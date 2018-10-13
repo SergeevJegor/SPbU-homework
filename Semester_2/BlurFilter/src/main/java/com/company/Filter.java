@@ -15,7 +15,7 @@ public class Filter implements Runnable {
     private int threads;
 
 
-    public Filter(BufferedImage img, BufferedImage newImg, ProcessingType processingType, int radiusSize, int numberOfThreads) {
+    public Filter(BufferedImage img, BufferedImage newImg, int radiusSize, ProcessingType processingType, int numberOfThreads) {
         newImage = newImg;
         image = img;
         width = image.getWidth();
