@@ -48,7 +48,7 @@ public class ImageConverter {
         }
     }
 
-    public void writeBlurredImage(String fileName) {
+    public void writeBlurredImage() {
         try {
             ImageIO.write(newImage, FILE_FORMAT, new File(FILE_SRC + fileName + "Output." + FILE_FORMAT));
         } catch (Exception e) {

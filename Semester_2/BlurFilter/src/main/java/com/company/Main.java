@@ -8,10 +8,9 @@ public class Main {
 
 
     public static void main(String[] args) {
-        String fileName = "big";
         ImageConverter converter = new ImageConverter("big", RADIUS_SIZE);
         converter.startThreads(ProcessingType.HORIZONTAL, THREADS_AMOUNT);
-        converter.writeBlurredImage(fileName);
+        converter.writeBlurredImage();
     }
 
 }
