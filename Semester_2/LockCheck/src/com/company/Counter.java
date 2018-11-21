@@ -20,8 +20,13 @@ public class Counter implements Runnable {
     public void run() {
         for (int i = 0; i < incAmount; i++) {
             lock.lock();
-            counter++;
-            lock.unlock();
+            try {
+                counter++;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
         }
     }
 }
