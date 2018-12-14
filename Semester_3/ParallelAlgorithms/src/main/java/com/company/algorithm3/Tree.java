@@ -59,7 +59,7 @@ public class Tree {
                 e.printStackTrace();
             }
 
-            return CalcCarries.sumCarries(runLeft.returnValue, runRight.returnValue);
+            return value = CalcCarries.sumCarries(runLeft.returnValue, runRight.returnValue);
         } else
             return value;
     }

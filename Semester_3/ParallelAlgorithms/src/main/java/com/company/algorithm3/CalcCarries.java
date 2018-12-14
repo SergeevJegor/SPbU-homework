@@ -77,7 +77,7 @@ public class CalcCarries implements Runnable {
         for (int i = from + 1; i < to; i++)
             carries[i] = sumCarries(carries[i - 1], carries[i]);
 
-        printArray(carries);
+//        printArray(carries);
 
         synchronized (Main.synchronizer) {
             Main.threadsFinished++;
