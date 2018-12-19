@@ -15,7 +15,7 @@ public class Saver implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Saving " + doc.location());
+        // System.out.println("Saving " + doc.location());
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter("resources/" + doc.location().replaceAll("//:", "_").replace('/', '_').replace(':', '_') + ".html"));

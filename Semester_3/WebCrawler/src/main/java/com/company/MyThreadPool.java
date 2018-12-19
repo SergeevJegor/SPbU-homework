@@ -23,7 +23,10 @@ public class MyThreadPool implements Executor {
         if (isActive) {
             queue.offer(runnable);
         }
+    }
 
+    public MyConcurrentQueue<Runnable> getQueue() {
+        return queue;
     }
 
     public void shutdown() {
