@@ -21,10 +21,7 @@ public class Main {
         Thread[] threads = new Thread[threadsAmount];
         interval = Math.max(numberSize / threadsAmount, 1);
         for (int i = 0; i < threadsAmount; i++) {
-            if (i == threadsAmount - 1)
-                calculators[i] = new CalcCarries(i * interval, numberSize, num1, num2, carries);
-            else
-                calculators[i] = new CalcCarries(i * interval, Math.min(interval * (i + 1), numberSize), num1, num2, carries);
+            calculators[i] = new CalcCarries(i * interval, Math.min(interval * (i + 1), numberSize), num1, num2, carries);
             threads[i] = new Thread(calculators[i]);
             threads[i].start();
         }
