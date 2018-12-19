@@ -7,12 +7,32 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    private static final int threadsAmount = 40;
+    private static int threadsAmount = 40;
     private static final int depth = 1;
     private static final String address = "http://hwproj.me";
 
 
     public static void main(String[] args) {
+        int[] threads = {1, 2, 4, 8};
+        long[] times = new long[4];
+        for (int i = 0; i < 4; i++) {
+            long sumTime = 0;
+            int iterations = 10;
+            for (int j = 0; j < iterations; j++) {
+                long startTime = System.nanoTime();
+                launch(threads[i]);
+                long endTime = System.nanoTime();
+                sumTime += endTime - startTime;
+            }
+            times[i] = sumTime / iterations;
+        }
+        for (int i = 0; i < 4; i++) {
+            System.out.println(threads[i] + " threads: " + times[i]);
+        }
+    }
+
+    public static void launch(int numOfThreads) {
+        threadsAmount = numOfThreads;
 //        MyConcurrentQueue<String> urls = new MyConcurrentQueue<>();
 //        MyThreadPool pool = new MyThreadPool(threadsAmount);
         ConcurrentSkipListSet<String> urls = new ConcurrentSkipListSet<>();
@@ -29,6 +49,4 @@ public class Main {
         }
         pool.shutdown();
     }
-
-
 }
