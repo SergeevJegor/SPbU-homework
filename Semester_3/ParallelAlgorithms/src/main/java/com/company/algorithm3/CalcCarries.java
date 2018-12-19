@@ -1,5 +1,7 @@
 package com.company.algorithm3;
 
+import com.company.parallel_scan.Tree;
+
 public class CalcCarries implements Runnable {
 
     private int from;
@@ -7,8 +9,7 @@ public class CalcCarries implements Runnable {
     private int[] num1;
     private int[] num2;
     private CarryType[] carries;
-    private CarryType carry_sum = CarryType.MAYBE;
-    private CarryType total;
+    private CarryType total = new CarryType(CarryType.Carry.MAYBE);
 
 
     CalcCarries(int from, int to, int[] num, int[] num2, CarryType[] carries) {
@@ -19,24 +20,17 @@ public class CalcCarries implements Runnable {
         this.carries = carries;
     }
 
-    public static CarryType sumCarries(CarryType carry1, CarryType carry2) {
-        if (carry2 != CarryType.MAYBE)
-            return carry2;
-        else
-            return carry1;
-    }
-
     public CarryType sumCarries(int fromIndex, int toIndex) {
-        CarryType carryFolder = CarryType.MAYBE;
+        CarryType carryFolder = new CarryType(CarryType.Carry.MAYBE);
         int sum;
         for (int i = fromIndex; i < toIndex; i++) {
             if ((sum = num1[i] + num2[i]) < 9)
-                carries[i] = CarryType.NEVER;
+                carries[i].value = CarryType.Carry.NEVER;
             else if (sum == 9)
-                carries[i] = CarryType.MAYBE;
+                carries[i].value = CarryType.Carry.MAYBE;
             else
-                carries[i] = CarryType.CARRY;
-            carryFolder = sumCarries(carryFolder, carries[i]);
+                carries[i].value = CarryType.Carry.CARRY;
+            carryFolder = carryFolder.add(carries[i]);
         }
         return carryFolder;
     }
@@ -59,23 +53,23 @@ public class CalcCarries implements Runnable {
                     e.printStackTrace();
                 }
             } else {
-                Tree root = new Tree(1, Main.threadsAmount);
+                Tree<CarryType> root = new Tree<CarryType>(1, Main.threadsAmount);
                 root.treeSetup(Main.prefixes, 1, Main.threadsAmount);
-                root.upsweep();
-                root.downsweep(CarryType.MAYBE);
+                CarryType folder = root.upsweep();
+                root.downsweep(Main.prefixes, folder);
                 Main.threadsFinished = 0;
                 Main.synchronizer.notifyAll();
             }
         }
         // There cannot be any carry at 1's prefix:
         if (from == 0)
-            total = CarryType.NEVER;
+            total.value = CarryType.Carry.NEVER;
         else
             total = Main.prefixes[from / Main.interval];
         // Set final carries:
-        carries[from] = sumCarries(total, carries[from]);
+        carries[from] = total.add(carries[from]);
         for (int i = from + 1; i < to; i++)
-            carries[i] = sumCarries(carries[i - 1], carries[i]);
+            carries[i] = carries[i - 1].add(carries[i]);
 
 //        printArray(carries);
 
@@ -96,7 +90,7 @@ public class CalcCarries implements Runnable {
             if (i == 0)
                 Main.result[i] = (Main.num1[i] + Main.num2[i]) % 10;
             else
-                Main.result[i] = (Main.num1[i] + Main.num2[i] + (Main.carries[i - 1] == CarryType.CARRY ? 1 : 0)) % 10;
+                Main.result[i] = (Main.num1[i] + Main.num2[i] + (Main.carries[i - 1].value == CarryType.Carry.CARRY ? 1 : 0)) % 10;
         }
 
     }

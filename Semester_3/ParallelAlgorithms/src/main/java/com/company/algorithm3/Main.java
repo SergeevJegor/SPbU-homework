@@ -14,8 +14,8 @@ public class Main {
 
     public static void main(String[] args) {
         setup(8,
-                5,
-                "99999999",
+                8,
+                "12356099",
                 "00000001");
         CalcCarries[] calculators = new CalcCarries[threadsAmount];
         Thread[] threads = new Thread[threadsAmount];
@@ -55,6 +55,9 @@ public class Main {
         prefixes = new CarryType[threadsAmount];
         result = new int[numberSize];
         carries = new CarryType[numberSize];
+        for (int i = 0; i < numberSize; i++) {
+            carries[i] = new CarryType(CarryType.Carry.NEVER);
+        }
     }
 
 }
