@@ -3,8 +3,8 @@ package com.company.algorithm10;
 import com.company.parallel_scan.ValueType;
 
 public class CommandType implements ValueType<CommandType> {
-    double angle;
-    double length;
+    public double angle;
+    public double length;
 
     public CommandType(double angle, double length) {
         this.angle = angle;

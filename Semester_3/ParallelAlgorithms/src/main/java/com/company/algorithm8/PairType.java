@@ -3,8 +3,8 @@ package com.company.algorithm8;
 import com.company.parallel_scan.ValueType;
 
 public class PairType implements ValueType<PairType> {
-    int a;
-    int b;
+    public int a;
+    public int b;
 
     public PairType(int a, int b) {
         this.a = a;

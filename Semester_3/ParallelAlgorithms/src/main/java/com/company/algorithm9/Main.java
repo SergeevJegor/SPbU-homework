@@ -39,6 +39,33 @@ public class Main {
         exit(0);
     }
 
+    public static void launch(int numOfThreads, String input) {
+        setup(numOfThreads, input);
+        int interval = stringSize / threadsAmount;
+        Thread[] threads = new Thread[threadsAmount];
+        for (int i = 0; i < threadsAmount; i++) {
+            threads[i] = new Thread(new Calculator(i * interval, Math.min((i + 1) * interval, stringSize), i, parsedString, prefixes));
+            threads[i].start();
+        }
+        try {
+            for (int i = 0; i < threadsAmount; i++) {
+                threads[i].join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (IntBracketType bracket : parsedString) {
+            if (bracket.value == -1) {
+                System.out.println("Wrong bracket. Abort");
+                exit(1);
+            }
+        }
+        if (parsedString[stringSize - 1].value > 0) {
+            System.out.println("Wrong bracket. Abort");
+            exit(1);
+        }
+    }
+
     public static void setup(int numOfThreads, String input) {
         threadsAmount = numOfThreads;
         stringSize = input.length();

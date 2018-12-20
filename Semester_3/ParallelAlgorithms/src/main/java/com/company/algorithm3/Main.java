@@ -40,6 +40,26 @@ public class Main {
 
     }
 
+    public static void launch(int sizeOfNumber, int amountOfThreads, String num1Str, String num2Str) {
+        setup(sizeOfNumber, amountOfThreads, num1Str, num2Str);
+        CalcCarries[] calculators = new CalcCarries[threadsAmount];
+        Thread[] threads = new Thread[threadsAmount];
+        interval = Math.max(numberSize / threadsAmount, 1);
+        for (int i = 0; i < threadsAmount; i++) {
+            calculators[i] = new CalcCarries(i * interval, Math.min(interval * (i + 1), numberSize), num1, num2, carries);
+            threads[i] = new Thread(calculators[i]);
+            threads[i].start();
+        }
+
+        try {
+            for (int i = 0; i < threadsAmount; i++) {
+                threads[i].join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void setup(int sizeOfNumber, int amountOfThreads, String num1Str, String num2Str) {
         numberSize = sizeOfNumber;
         threadsAmount = Math.min(amountOfThreads, sizeOfNumber);

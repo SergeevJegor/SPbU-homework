@@ -59,6 +59,46 @@ public class Main {
         System.out.println(result);
     }
 
+    public static void launch(int numOfThreads, int numOfCommands, CommandType[] input) {
+        setup(numOfThreads, numOfCommands, input);
+        int interval = commandsAmount / threadsAmount;
+        // Parse angles:
+        Thread[] threads = new Thread[threadsAmount];
+        for (int i = 0; i < threadsAmount; i++) {
+            threads[i] = new Thread(new AnglesParse(i * interval, Math.min((i + 1) * interval, commandsAmount), i, angles, anglesPrefixes));
+            threads[i].start();
+        }
+        try {
+            for (int i = 0; i < threadsAmount; i++) {
+                threads[i].join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // (angle, length) --> (x, y):
+        coordinates = new CoordinatesType[commandsAmount];
+        for (int i = 0; i < commandsAmount; i++) {
+            coordinates[i] = new CoordinatesType(Math.cos(Math.toRadians(angles[i].value)) * commands[i].length,
+                    Math.sin(Math.toRadians(angles[i].value)) * commands[i].length);
+//            System.out.println(coordinates[i]);
+        }
+        // Parallel scan on coordinates:
+        for (int i = 0; i < threadsAmount; i++) {
+            threads[i] = new Thread(new Calculator(i * interval, Math.min((i + 1) * interval, commandsAmount), i, coordinates, coordinatesPrefixes));
+            threads[i].start();
+        }
+        try {
+            for (int i = 0; i < threadsAmount; i++) {
+                threads[i].join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Tree<CoordinatesType> tree = new Tree<>(1, threadsAmount);
+        tree.treeSetup(coordinatesPrefixes, 1, threadsAmount);
+        result = tree.upsweep();
+    }
+
     public static void setup(int numOfThreads, int numOfCommands, CommandType[] input) {
         threadsAmount = numOfThreads;
         commandsAmount = numOfCommands;
