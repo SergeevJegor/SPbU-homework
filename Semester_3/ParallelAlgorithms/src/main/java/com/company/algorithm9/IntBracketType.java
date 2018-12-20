@@ -1,4 +1,4 @@
-package com.company.alorithm9;
+package com.company.algorithm9;
 
 import com.company.parallel_scan.ValueType;
 

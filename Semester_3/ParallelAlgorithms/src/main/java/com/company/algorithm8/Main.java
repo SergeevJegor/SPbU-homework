@@ -37,7 +37,7 @@ public class Main {
         pairsAmount = numOfPairs;
         result = 0;
         // pairs = input
-        pairs = new PairType[]{new PairType(1, 2), new PairType(0,3), new PairType(2,4), new PairType(1,5)};
+        pairs = new PairType[]{new PairType(1, 2), new PairType(0, 3), new PairType(2, 4), new PairType(1, 5)};
         prefixes = new PairType[threadsAmount];
         for (int i = 0; i < threadsAmount; i++)
             prefixes[i] = new PairType(0, 0);

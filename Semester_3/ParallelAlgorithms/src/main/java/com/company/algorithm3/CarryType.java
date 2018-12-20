@@ -1,8 +1,8 @@
 package com.company.algorithm3;
+
 import com.company.parallel_scan.ValueType;
 
 public class CarryType implements ValueType<CarryType> {
-    enum Carry {NEVER, MAYBE, CARRY}
     public Carry value;
 
     public CarryType(Carry val) {
@@ -16,4 +16,6 @@ public class CarryType implements ValueType<CarryType> {
         else
             return this;
     }
+
+    enum Carry {NEVER, MAYBE, CARRY}
 }

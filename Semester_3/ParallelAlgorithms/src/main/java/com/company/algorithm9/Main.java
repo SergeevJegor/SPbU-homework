@@ -1,13 +1,13 @@
-package com.company.alorithm9;
+package com.company.algorithm9;
 
 import static java.lang.System.exit;
 
 public class Main {
+    public static final Object synchronizer = new Object();
     public static int threadsAmount = 4;
     public static int stringSize = 8;
     public static volatile IntBracketType[] prefixes;
     public static IntBracketType[] parsedString;
-    public static final Object synchronizer = new Object();
     public static int threadsFinished = 0;
 
     public static void main(String[] agrs) {
@@ -25,7 +25,7 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        for (IntBracketType bracket : parsedString){
+        for (IntBracketType bracket : parsedString) {
             if (bracket.value == -1) {
                 System.out.println("Wrong bracket. Abort");
                 exit(1);

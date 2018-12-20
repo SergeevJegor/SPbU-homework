@@ -13,7 +13,7 @@ public class PairType implements ValueType<PairType> {
 
     @Override
     public PairType add(PairType p) {
-        PairType tmp = new PairType(0,0);
+        PairType tmp = new PairType(0, 0);
         tmp.a = this.a * p.a;
         tmp.b = p.a * this.b + p.b;
         return tmp;

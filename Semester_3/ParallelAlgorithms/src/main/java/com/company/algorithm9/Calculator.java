@@ -1,4 +1,4 @@
-package com.company.alorithm9;
+package com.company.algorithm9;
 
 import com.company.parallel_scan.Tree;
 
@@ -47,7 +47,7 @@ public class Calculator implements Runnable {
                 total = new IntBracketType(0);
             brackets[from] = brackets[from].add(total);
             for (int i = from + 1; i < to; i++)
-                brackets[i] = brackets[i-1].add(brackets[i]);
+                brackets[i] = brackets[i - 1].add(brackets[i]);
         }
     }
 }
