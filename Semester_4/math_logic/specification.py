@@ -28,12 +28,12 @@ def find_neutral(c):
                 flag = False
                 break
         if flag:
-            return True, i
-    return False, None
+            return i
+    return None
 
 
-def check_inversed(c, neutral):
-    print(neutral)
+def check_inverse(c, neutral):
+    # print(neutral)
     for i in range(len(c)):
         inv_exist = False
         for j in range(len(c)):
@@ -64,13 +64,13 @@ if __name__ == '__main__':
         print("Magma")
         exit(0)
     is_neutral, n = find_neutral(cayley_table)
-    if not is_neutral:
+    if is_neutral is not None:
         print("Semigroup")
         exit(0)
-    inversed = check_inversed(cayley_table, n)
+    inverse = check_inverse(cayley_table, n)
     commutativity = check_commutativity(cayley_table)
     print()
-    if inversed:
+    if inverse:
         if commutativity:
             print("Abelian group ")
         else:
