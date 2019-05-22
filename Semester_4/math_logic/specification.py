@@ -10,7 +10,7 @@ from itertools import combinations
 # ==================================================
 
 
-def check_association(c):
+def check_associativity(c):
     n = len(c)
     for i in range(n):
         for j in range(n):
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         f = open('test', 'r')
     cayley_table = [[int(x) for x in line.split(' ')] for line in f.readlines()]
 
-    if not check_association(cayley_table):
+    if not check_associativity(cayley_table):
         print("Magma")
         exit(0)
     n = find_identity(cayley_table)
