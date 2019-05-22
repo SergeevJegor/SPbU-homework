@@ -3,7 +3,7 @@ from itertools import combinations
 # ==================================================
 # | Magma               | any                      |
 # | Semigroup           | associativity            |
-# | Monoid              | semigroup + with neutral |
+# | Monoid              | semigroup + with identity|
 # | Group               | Monoid + inverse element |
 # | Commutative monoid  | Monoid + commutativity   |
 # | Abelian group       | Group + commutativity    |
@@ -20,7 +20,7 @@ def check_association(c):
     return True
 
 
-def find_neutral(c):
+def find_identity(c):
     for i in range(len(c)):
         flag = True
         for j in range(len(c)):
@@ -32,12 +32,12 @@ def find_neutral(c):
     return None
 
 
-def check_inverse(c, neutral):
-    # print(neutral)
+def check_inverse(c, identity):
+    # print(identity)
     for i in range(len(c)):
         inv_exist = False
         for j in range(len(c)):
-            if c[i][j] == neutral and c[j][i] == neutral:
+            if c[i][j] == identity and c[j][i] == identity:
                 inv_exist = True
                 break
         if not inv_exist:
@@ -63,8 +63,8 @@ if __name__ == '__main__':
     if not check_association(cayley_table):
         print("Magma")
         exit(0)
-    is_neutral, n = find_neutral(cayley_table)
-    if is_neutral is not None:
+    n = find_identity(cayley_table)
+    if n is not None:
         print("Semigroup")
         exit(0)
     inverse = check_inverse(cayley_table, n)
@@ -79,3 +79,4 @@ if __name__ == '__main__':
         print("Commutative monoid")
     else:
         print("Monoid")
+
