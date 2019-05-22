@@ -64,7 +64,7 @@ if __name__ == '__main__':
         print("Magma")
         exit(0)
     n = find_identity(cayley_table)
-    if n is not None:
+    if n is None:
         print("Semigroup")
         exit(0)
     inverse = check_inverse(cayley_table, n)
