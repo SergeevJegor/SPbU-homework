@@ -1,14 +1,9 @@
 import telebot
+from generator import Generator
 
-# Startup-name-generator files import:
-import sys
-import os
-sys.path.append(os.path.abspath('./startup-name-generator'))
-import sng
+generator = Generator.load('my_model')
 
-generator = sng.Generator.load('my_model')
-
-bot = telebot.TeleBot("")
+bot = telebot.TeleBot("829885327:AAHdSfH4mvdW7eyPdr70MBhsZa4A-MffcPw")
 
 markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 gen_button = telebot.types.KeyboardButton('Generate')
@@ -17,7 +12,7 @@ markup.add(gen_button)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    start_message = 'Hi there!\nPress button \"Generate\" to get a startup name.'
+    start_message = 'Hi there!\nPress \"Generate\" button to get a startup name.'
     bot.send_message(message.chat.id, start_message, reply_markup=markup)
 
 

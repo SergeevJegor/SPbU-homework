@@ -1,8 +1,6 @@
 from keras.preprocessing.text import text_to_word_sequence
-import sys
-import os
-sys.path.append(os.path.abspath('./startup-name-generator'))
-import sng
+from generator import Generator
+from config import Config
 
 
 def load_worlist_file(filename):
@@ -18,10 +16,15 @@ def load_worlist_file(filename):
         raise FileNotFoundError('Could not find the file ' + str(wordlist_file))
 
 
-cfg = sng.Config(epochs=80)
-wordlist = load_worlist_file('model_source.txt')
-gen = sng.Generator(wordlist=wordlist, config=cfg)
+def train_and_save_model(filename):
+    cfg = Config(epochs=80)
+    wordlist = load_worlist_file(filename)
+    gen = Generator(wordlist=wordlist, config=cfg)
 
-gen.fit()
+    gen.fit()
 
-gen.save('my_model', overwrite=True)
+    gen.save('my_model', overwrite=True)
+
+
+if __name__ == '__main__':
+    train_and_save_model('model_source.txt')
