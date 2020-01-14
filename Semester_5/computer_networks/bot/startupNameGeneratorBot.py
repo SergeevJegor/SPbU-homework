@@ -3,7 +3,7 @@ from generator import Generator
 
 generator = Generator.load('my_model')
 
-bot = telebot.TeleBot("829885327:AAHdSfH4mvdW7eyPdr70MBhsZa4A-MffcPw")
+bot = telebot.TeleBot("TOKEN")
 
 markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 gen_button = telebot.types.KeyboardButton('Generate')
