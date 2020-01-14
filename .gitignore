@@ -54,3 +54,6 @@ dkms.conf
 # IDE project files
 cmake-build-debug/
 .idea/
+
+# Python virtual enviroment
+venv/
