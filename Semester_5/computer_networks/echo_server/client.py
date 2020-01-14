@@ -4,7 +4,7 @@ import time
 
 if __name__ == '__main__':
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
-        socket.connect(('', 8080))
+        socket.connect(('142.93.128.77', 7354))
         i = 1
 
         while True:
